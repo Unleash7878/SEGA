@@ -234,11 +234,13 @@
                 "buynow": [
                   {
                     "href": "https://gameus.com.vn/products/game-nintendo-switch-sonic-colors-ultimate",
-                    "title": "Game US"
+                    "title": "Game US",
+                    "target": "_blank"
                   },
                   {
                     "href": "https://mimigame.vn/products/334-sonic-colors-ultimate",
-                    "title": "Mini Game"
+                    "title": "Mini Game",
+                    "target": "_blank"
                   }
                 ]
               }
@@ -265,11 +267,13 @@
                 "buynow": [
                   {
                     "href": "https://www.playstation.com/en-vn/games/sonic-colors-ultimate/",
-                    "title": "Digital Standard"
+                    "title": "Digital Standard",
+                    "target": "_blank"
                   },
                   {
                     "href": "https://www.playstation.com/en-vn/games/sonic-colors-ultimate/",
-                    "title": "Digital Deluxe"
+                    "title": "Digital Deluxe",
+                    "target": "_blank"
                   }
                 ]
               },
@@ -278,7 +282,8 @@
                 "buynow": [
                   {
                     "href": "https://www.play-asia.com/vi/sonic-colors-ultimate/13/70ejgr",
-                    "title": "Play Asia"
+                    "title": "Play Asia",
+                    "target": "_blank"
                   }
                 ]
               }
@@ -292,11 +297,13 @@
                 "buynow": [
                   {
                     "href": "https://store.steampowered.com/app/2055290/Sonic_Colors_Ultimate",
-                    "title": "Digital Standard"
+                    "title": "Digital Standard",
+                    "target": "_blank"
                   },
                   {
                     "href": "https://store.steampowered.com/app/2055290/Sonic_Colors_Ultimate",
-                    "title": "Digital Deluxe"
+                    "title": "Digital Deluxe",
+                    "target": "_blank"
                   }
                 ]
               }
@@ -310,11 +317,13 @@
                 "buynow": [
                   {
                     "href": "https://www.epicgames.com/store/en-VN/p/sonic-colors-ultimate",
-                    "title": "Digital Standard"
+                    "title": "Digital Standard",
+                    "target": "_blank"
                   },
                   {
                     "href": "https://www.epicgames.com/store/en-VN/p/sonic-colors-ultimate",
-                    "title": "Digital Deluxe"
+                    "title": "Digital Deluxe",
+                    "target": "_blank"
                   }
                 ]
               }

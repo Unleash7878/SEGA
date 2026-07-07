@@ -21293,7 +21293,7 @@ to single column when 2 columns (plus a defined gutter margin) no longer fit on 
               <template is="dom-repeat" items="{{platform.version}}" as="buynow">
                 <section class="version">
                   <template is="dom-repeat" items="{{buynow.buynow}}">
-                    <a href="{{item.href}}" target="_blank" disabled$="{{item.comingSoon}}">
+                    <a href="{{item.href}}" target="{{item.target}}" disabled$="{{item.comingSoon}}">
                       <paper-button noink="">
                         {{item.title}}
                       </paper-button>
