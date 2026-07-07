@@ -1,15 +1,7 @@
-import 'https://unpkg.com/@polymer/polymer@^3.0.0/polymer-legacy.js?module';
-
-import 'https://unpkg.com/@polymer/iron-media-query/iron-media-query.js?module';
-import 'https://unpkg.com/@polymer/iron-selector/iron-selector.js?module';
-
-import {IronResizableBehavior} from 'https://unpkg.com/@polymer/iron-resizable-behavior/iron-resizable-behavior.js?module';
-import {Polymer} from 'https://unpkg.com/@polymer/polymer/lib/legacy/polymer-fn.js?module';
-import {dom} from 'https://unpkg.com/@polymer/polymer/lib/legacy/polymer.dom.js?module';
-import {html} from 'https://unpkg.com/@polymer/polymer@^3.0.0/lib/utils/html-tag.js?module';
-const segaSheet = new CSSStyleSheet();
-segaSheet.replace(`
-:root,[data-theme="light"] {
+import {html, css, LitElement} from 'https://unpkg.com/lit/index.js?module';
+const segaTheme = new CSSStyleSheet();
+segaTheme.replace(`
+:root,[data-sega-theme="light"] {
     --md-sys-color-background: #fbf8ff;
     --md-sys-color-on-background: #1a1b24;
     --md-sys-color-surface: #fbf8ff;
@@ -49,7 +41,7 @@ segaSheet.replace(`
     --md-sys-color-on-error-container: #410002;
 }
 
-[data-theme="dark"] {
+[data-sega-theme="dark"] {
     --md-sys-color-background: #12131b;
     --md-sys-color-on-background: #e3e1ee;
     --md-sys-color-surface: #12131b;
@@ -87,8 +79,13 @@ segaSheet.replace(`
     --md-sys-color-on-error: #690005;
     --md-sys-color-error-container: #93000a;
     --md-sys-color-on-error-container: #ffdad6;
-}
-
+}  
+`);
+document.adoptedStyleSheets = [
+  ...document.adoptedStyleSheets,segaTheme
+];
+const segaSheet = new CSSStyleSheet();
+segaSheet.replace(`
 @layer theme {
     :host,:root {
         --font-sans: ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
@@ -1175,43 +1172,6 @@ segaSheet.replace(`
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-            :root {
-                --md-ref-typeface-plain: 'Google Sans',Roboto,system-ui;
-                --catalog-display-xl-font-size: 88px;
-                --catalog-display-m-font-size: 45px;
-                --catalog-title-l-font-size: 22px;
-                --catalog-title-m-font-size: 16px;
-                --catalog-title-s-font-size: 14px;
-                --catalog-body-l-font-size: 16px;
-                --catalog-body-m-font-size: 14px;
-                --catalog-headline-s-font-size: 24px;
-                --catalog-label-s-font-size: 11px;
-                --catalog-shape-xl: 28px;
-                --catalog-shape-l: 16px;
-                --catalog-shape-m: 12px;
-                --catalog-shape-s: 8px;
-                --catalog-shape-xs: 4px;
-                --catalog-spacing-xl: 28px;
-                --catalog-spacing-l: 16px;
-                --catalog-spacing-m: 12px;
-                --catalog-spacing-s: 8px;
-                --catalog-top-app-bar-height: calc(48px + 2 * var(--catalog-spacing-m));
-                scroll-padding-block-start: calc(var(--catalog-top-app-bar-height) + var(--catalog-top-app-bar-padding-block) * 2)
-            }
-
-            @media screen and (max-width: 600px) {
-                :root {
-                    --catalog-display-xl-font-size:55px;
-                    --catalog-title-l-font-size: 16px;
-                    --catalog-body-l-font-size: 14px;
-                    --catalog-body-m-font-size: 12px;
-                    --catalog-spacing-xl: 16px;
-                    --catalog-spacing-l: 12px
-                }
-            }
-
-
-
     :host,html {
         -webkit-text-size-adjust: 100%;
         tab-size: 4;
@@ -1231,684 +1191,12 @@ segaSheet.replace(`
 document.adoptedStyleSheets = [
   ...document.adoptedStyleSheets,segaSheet
 ];
-const template = html`
-<custom-style>
-  <style is="custom-style">
-    html {
-
-      /* Material Design color palette for Google products */
-
-      --google-red-100: #f4c7c3;
-      --google-red-300: #e67c73;
-      --google-red-500: #db4437;
-      --google-red-700: #c53929;
-
-      --google-blue-100: #c6dafc;
-      --google-blue-300: #7baaf7;
-      --google-blue-500: #4285f4;
-      --google-blue-700: #3367d6;
-
-      --google-green-100: #b7e1cd;
-      --google-green-300: #57bb8a;
-      --google-green-500: #0f9d58;
-      --google-green-700: #0b8043;
-
-      --google-yellow-100: #fce8b2;
-      --google-yellow-300: #f7cb4d;
-      --google-yellow-500: #f4b400;
-      --google-yellow-700: #f09300;
-
-      --google-grey-100: #f5f5f5;
-      --google-grey-300: #e0e0e0;
-      --google-grey-500: #9e9e9e;
-      --google-grey-700: #616161;
-
-      /* Material Design color palette from online spec document */
-
-      --paper-red-50: #ffebee;
-      --paper-red-100: #ffcdd2;
-      --paper-red-200: #ef9a9a;
-      --paper-red-300: #e57373;
-      --paper-red-400: #ef5350;
-      --paper-red-500: #f44336;
-      --paper-red-600: #e53935;
-      --paper-red-700: #d32f2f;
-      --paper-red-800: #c62828;
-      --paper-red-900: #b71c1c;
-      --paper-red-a100: #ff8a80;
-      --paper-red-a200: #ff5252;
-      --paper-red-a400: #ff1744;
-      --paper-red-a700: #d50000;
-
-      --paper-pink-50: #fce4ec;
-      --paper-pink-100: #f8bbd0;
-      --paper-pink-200: #f48fb1;
-      --paper-pink-300: #f06292;
-      --paper-pink-400: #ec407a;
-      --paper-pink-500: #e91e63;
-      --paper-pink-600: #d81b60;
-      --paper-pink-700: #c2185b;
-      --paper-pink-800: #ad1457;
-      --paper-pink-900: #880e4f;
-      --paper-pink-a100: #ff80ab;
-      --paper-pink-a200: #ff4081;
-      --paper-pink-a400: #f50057;
-      --paper-pink-a700: #c51162;
-
-      --paper-purple-50: #f3e5f5;
-      --paper-purple-100: #e1bee7;
-      --paper-purple-200: #ce93d8;
-      --paper-purple-300: #ba68c8;
-      --paper-purple-400: #ab47bc;
-      --paper-purple-500: #9c27b0;
-      --paper-purple-600: #8e24aa;
-      --paper-purple-700: #7b1fa2;
-      --paper-purple-800: #6a1b9a;
-      --paper-purple-900: #4a148c;
-      --paper-purple-a100: #ea80fc;
-      --paper-purple-a200: #e040fb;
-      --paper-purple-a400: #d500f9;
-      --paper-purple-a700: #aa00ff;
-
-      --paper-deep-purple-50: #ede7f6;
-      --paper-deep-purple-100: #d1c4e9;
-      --paper-deep-purple-200: #b39ddb;
-      --paper-deep-purple-300: #9575cd;
-      --paper-deep-purple-400: #7e57c2;
-      --paper-deep-purple-500: #673ab7;
-      --paper-deep-purple-600: #5e35b1;
-      --paper-deep-purple-700: #512da8;
-      --paper-deep-purple-800: #4527a0;
-      --paper-deep-purple-900: #311b92;
-      --paper-deep-purple-a100: #b388ff;
-      --paper-deep-purple-a200: #7c4dff;
-      --paper-deep-purple-a400: #651fff;
-      --paper-deep-purple-a700: #6200ea;
-
-      --paper-indigo-50: #e8eaf6;
-      --paper-indigo-100: #c5cae9;
-      --paper-indigo-200: #9fa8da;
-      --paper-indigo-300: #7986cb;
-      --paper-indigo-400: #5c6bc0;
-      --paper-indigo-500: #3f51b5;
-      --paper-indigo-600: #3949ab;
-      --paper-indigo-700: #303f9f;
-      --paper-indigo-800: #283593;
-      --paper-indigo-900: #1a237e;
-      --paper-indigo-a100: #8c9eff;
-      --paper-indigo-a200: #536dfe;
-      --paper-indigo-a400: #3d5afe;
-      --paper-indigo-a700: #304ffe;
-
-      --paper-blue-50: #e3f2fd;
-      --paper-blue-100: #bbdefb;
-      --paper-blue-200: #90caf9;
-      --paper-blue-300: #64b5f6;
-      --paper-blue-400: #42a5f5;
-      --paper-blue-500: #2196f3;
-      --paper-blue-600: #1e88e5;
-      --paper-blue-700: #1976d2;
-      --paper-blue-800: #1565c0;
-      --paper-blue-900: #0d47a1;
-      --paper-blue-a100: #82b1ff;
-      --paper-blue-a200: #448aff;
-      --paper-blue-a400: #2979ff;
-      --paper-blue-a700: #2962ff;
-
-      --paper-light-blue-50: #e1f5fe;
-      --paper-light-blue-100: #b3e5fc;
-      --paper-light-blue-200: #81d4fa;
-      --paper-light-blue-300: #4fc3f7;
-      --paper-light-blue-400: #29b6f6;
-      --paper-light-blue-500: #03a9f4;
-      --paper-light-blue-600: #039be5;
-      --paper-light-blue-700: #0288d1;
-      --paper-light-blue-800: #0277bd;
-      --paper-light-blue-900: #01579b;
-      --paper-light-blue-a100: #80d8ff;
-      --paper-light-blue-a200: #40c4ff;
-      --paper-light-blue-a400: #00b0ff;
-      --paper-light-blue-a700: #0091ea;
-
-      --paper-cyan-50: #e0f7fa;
-      --paper-cyan-100: #b2ebf2;
-      --paper-cyan-200: #80deea;
-      --paper-cyan-300: #4dd0e1;
-      --paper-cyan-400: #26c6da;
-      --paper-cyan-500: #00bcd4;
-      --paper-cyan-600: #00acc1;
-      --paper-cyan-700: #0097a7;
-      --paper-cyan-800: #00838f;
-      --paper-cyan-900: #006064;
-      --paper-cyan-a100: #84ffff;
-      --paper-cyan-a200: #18ffff;
-      --paper-cyan-a400: #00e5ff;
-      --paper-cyan-a700: #00b8d4;
-
-      --paper-teal-50: #e0f2f1;
-      --paper-teal-100: #b2dfdb;
-      --paper-teal-200: #80cbc4;
-      --paper-teal-300: #4db6ac;
-      --paper-teal-400: #26a69a;
-      --paper-teal-500: #009688;
-      --paper-teal-600: #00897b;
-      --paper-teal-700: #00796b;
-      --paper-teal-800: #00695c;
-      --paper-teal-900: #004d40;
-      --paper-teal-a100: #a7ffeb;
-      --paper-teal-a200: #64ffda;
-      --paper-teal-a400: #1de9b6;
-      --paper-teal-a700: #00bfa5;
-
-      --paper-green-50: #e8f5e9;
-      --paper-green-100: #c8e6c9;
-      --paper-green-200: #a5d6a7;
-      --paper-green-300: #81c784;
-      --paper-green-400: #66bb6a;
-      --paper-green-500: #4caf50;
-      --paper-green-600: #43a047;
-      --paper-green-700: #388e3c;
-      --paper-green-800: #2e7d32;
-      --paper-green-900: #1b5e20;
-      --paper-green-a100: #b9f6ca;
-      --paper-green-a200: #69f0ae;
-      --paper-green-a400: #00e676;
-      --paper-green-a700: #00c853;
-
-      --paper-light-green-50: #f1f8e9;
-      --paper-light-green-100: #dcedc8;
-      --paper-light-green-200: #c5e1a5;
-      --paper-light-green-300: #aed581;
-      --paper-light-green-400: #9ccc65;
-      --paper-light-green-500: #8bc34a;
-      --paper-light-green-600: #7cb342;
-      --paper-light-green-700: #689f38;
-      --paper-light-green-800: #558b2f;
-      --paper-light-green-900: #33691e;
-      --paper-light-green-a100: #ccff90;
-      --paper-light-green-a200: #b2ff59;
-      --paper-light-green-a400: #76ff03;
-      --paper-light-green-a700: #64dd17;
-
-      --paper-lime-50: #f9fbe7;
-      --paper-lime-100: #f0f4c3;
-      --paper-lime-200: #e6ee9c;
-      --paper-lime-300: #dce775;
-      --paper-lime-400: #d4e157;
-      --paper-lime-500: #cddc39;
-      --paper-lime-600: #c0ca33;
-      --paper-lime-700: #afb42b;
-      --paper-lime-800: #9e9d24;
-      --paper-lime-900: #827717;
-      --paper-lime-a100: #f4ff81;
-      --paper-lime-a200: #eeff41;
-      --paper-lime-a400: #c6ff00;
-      --paper-lime-a700: #aeea00;
-
-      --paper-yellow-50: #fffde7;
-      --paper-yellow-100: #fff9c4;
-      --paper-yellow-200: #fff59d;
-      --paper-yellow-300: #fff176;
-      --paper-yellow-400: #ffee58;
-      --paper-yellow-500: #ffeb3b;
-      --paper-yellow-600: #fdd835;
-      --paper-yellow-700: #fbc02d;
-      --paper-yellow-800: #f9a825;
-      --paper-yellow-900: #f57f17;
-      --paper-yellow-a100: #ffff8d;
-      --paper-yellow-a200: #ffff00;
-      --paper-yellow-a400: #ffea00;
-      --paper-yellow-a700: #ffd600;
-
-      --paper-amber-50: #fff8e1;
-      --paper-amber-100: #ffecb3;
-      --paper-amber-200: #ffe082;
-      --paper-amber-300: #ffd54f;
-      --paper-amber-400: #ffca28;
-      --paper-amber-500: #ffc107;
-      --paper-amber-600: #ffb300;
-      --paper-amber-700: #ffa000;
-      --paper-amber-800: #ff8f00;
-      --paper-amber-900: #ff6f00;
-      --paper-amber-a100: #ffe57f;
-      --paper-amber-a200: #ffd740;
-      --paper-amber-a400: #ffc400;
-      --paper-amber-a700: #ffab00;
-
-      --paper-orange-50: #fff3e0;
-      --paper-orange-100: #ffe0b2;
-      --paper-orange-200: #ffcc80;
-      --paper-orange-300: #ffb74d;
-      --paper-orange-400: #ffa726;
-      --paper-orange-500: #ff9800;
-      --paper-orange-600: #fb8c00;
-      --paper-orange-700: #f57c00;
-      --paper-orange-800: #ef6c00;
-      --paper-orange-900: #e65100;
-      --paper-orange-a100: #ffd180;
-      --paper-orange-a200: #ffab40;
-      --paper-orange-a400: #ff9100;
-      --paper-orange-a700: #ff6500;
-
-      --paper-deep-orange-50: #fbe9e7;
-      --paper-deep-orange-100: #ffccbc;
-      --paper-deep-orange-200: #ffab91;
-      --paper-deep-orange-300: #ff8a65;
-      --paper-deep-orange-400: #ff7043;
-      --paper-deep-orange-500: #ff5722;
-      --paper-deep-orange-600: #f4511e;
-      --paper-deep-orange-700: #e64a19;
-      --paper-deep-orange-800: #d84315;
-      --paper-deep-orange-900: #bf360c;
-      --paper-deep-orange-a100: #ff9e80;
-      --paper-deep-orange-a200: #ff6e40;
-      --paper-deep-orange-a400: #ff3d00;
-      --paper-deep-orange-a700: #dd2c00;
-
-      --paper-brown-50: #efebe9;
-      --paper-brown-100: #d7ccc8;
-      --paper-brown-200: #bcaaa4;
-      --paper-brown-300: #a1887f;
-      --paper-brown-400: #8d6e63;
-      --paper-brown-500: #795548;
-      --paper-brown-600: #6d4c41;
-      --paper-brown-700: #5d4037;
-      --paper-brown-800: #4e342e;
-      --paper-brown-900: #3e2723;
-
-      --paper-grey-50: #fafafa;
-      --paper-grey-100: #f5f5f5;
-      --paper-grey-200: #eeeeee;
-      --paper-grey-300: #e0e0e0;
-      --paper-grey-400: #bdbdbd;
-      --paper-grey-500: #9e9e9e;
-      --paper-grey-600: #757575;
-      --paper-grey-700: #616161;
-      --paper-grey-800: #424242;
-      --paper-grey-900: #212121;
-
-      --paper-blue-grey-50: #eceff1;
-      --paper-blue-grey-100: #cfd8dc;
-      --paper-blue-grey-200: #b0bec5;
-      --paper-blue-grey-300: #90a4ae;
-      --paper-blue-grey-400: #78909c;
-      --paper-blue-grey-500: #607d8b;
-      --paper-blue-grey-600: #546e7a;
-      --paper-blue-grey-700: #455a64;
-      --paper-blue-grey-800: #37474f;
-      --paper-blue-grey-900: #263238;
-
-      /* opacity for dark text on a light background */
-      --dark-divider-opacity: 0.12;
-      --dark-disabled-opacity: 0.38; /* or hint text or icon */
-      --dark-secondary-opacity: 0.54;
-      --dark-primary-opacity: 0.87;
-
-      /* opacity for light text on a dark background */
-      --light-divider-opacity: 0.12;
-      --light-disabled-opacity: 0.3; /* or hint text or icon */
-      --light-secondary-opacity: 0.7;
-      --light-primary-opacity: 1.0;
-
-    }
-
-  </style>
-</custom-style>
-<custom-style>
-  <style is="custom-style">
-    html {
-
-      --layout: {
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-      };
-
-      --layout-inline: {
-        display: -ms-inline-flexbox;
-        display: -webkit-inline-flex;
-        display: inline-flex;
-      };
-
-      --layout-horizontal: {
-        @apply --layout;
-
-        -ms-flex-direction: row;
-        -webkit-flex-direction: row;
-        flex-direction: row;
-      };
-
-      --layout-horizontal-reverse: {
-        @apply --layout;
-
-        -ms-flex-direction: row-reverse;
-        -webkit-flex-direction: row-reverse;
-        flex-direction: row-reverse;
-      };
-
-      --layout-vertical: {
-        @apply --layout;
-
-        -ms-flex-direction: column;
-        -webkit-flex-direction: column;
-        flex-direction: column;
-      };
-
-      --layout-vertical-reverse: {
-        @apply --layout;
-
-        -ms-flex-direction: column-reverse;
-        -webkit-flex-direction: column-reverse;
-        flex-direction: column-reverse;
-      };
-
-      --layout-wrap: {
-        -ms-flex-wrap: wrap;
-        -webkit-flex-wrap: wrap;
-        flex-wrap: wrap;
-      };
-
-      --layout-wrap-reverse: {
-        -ms-flex-wrap: wrap-reverse;
-        -webkit-flex-wrap: wrap-reverse;
-        flex-wrap: wrap-reverse;
-      };
-
-      --layout-flex-auto: {
-        -ms-flex: 1 1 auto;
-        -webkit-flex: 1 1 auto;
-        flex: 1 1 auto;
-      };
-
-      --layout-flex-none: {
-        -ms-flex: none;
-        -webkit-flex: none;
-        flex: none;
-      };
-
-      --layout-flex: {
-        -ms-flex: 1 1 0.000000001px;
-        -webkit-flex: 1;
-        flex: 1;
-        -webkit-flex-basis: 0.000000001px;
-        flex-basis: 0.000000001px;
-      };
-
-      --layout-flex-2: {
-        -ms-flex: 2;
-        -webkit-flex: 2;
-        flex: 2;
-      };
-
-      --layout-flex-3: {
-        -ms-flex: 3;
-        -webkit-flex: 3;
-        flex: 3;
-      };
-
-      --layout-flex-4: {
-        -ms-flex: 4;
-        -webkit-flex: 4;
-        flex: 4;
-      };
-
-      --layout-flex-5: {
-        -ms-flex: 5;
-        -webkit-flex: 5;
-        flex: 5;
-      };
-
-      --layout-flex-6: {
-        -ms-flex: 6;
-        -webkit-flex: 6;
-        flex: 6;
-      };
-
-      --layout-flex-7: {
-        -ms-flex: 7;
-        -webkit-flex: 7;
-        flex: 7;
-      };
-
-      --layout-flex-8: {
-        -ms-flex: 8;
-        -webkit-flex: 8;
-        flex: 8;
-      };
-
-      --layout-flex-9: {
-        -ms-flex: 9;
-        -webkit-flex: 9;
-        flex: 9;
-      };
-
-      --layout-flex-10: {
-        -ms-flex: 10;
-        -webkit-flex: 10;
-        flex: 10;
-      };
-
-      --layout-flex-11: {
-        -ms-flex: 11;
-        -webkit-flex: 11;
-        flex: 11;
-      };
-
-      --layout-flex-12: {
-        -ms-flex: 12;
-        -webkit-flex: 12;
-        flex: 12;
-      };
-
-      /* alignment in cross axis */
-
-      --layout-start: {
-        -ms-flex-align: start;
-        -webkit-align-items: flex-start;
-        align-items: flex-start;
-      };
-
-      --layout-center: {
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        align-items: center;
-      };
-
-      --layout-end: {
-        -ms-flex-align: end;
-        -webkit-align-items: flex-end;
-        align-items: flex-end;
-      };
-
-      --layout-baseline: {
-        -ms-flex-align: baseline;
-        -webkit-align-items: baseline;
-        align-items: baseline;
-      };
-
-      /* alignment in main axis */
-
-      --layout-start-justified: {
-        -ms-flex-pack: start;
-        -webkit-justify-content: flex-start;
-        justify-content: flex-start;
-      };
-
-      --layout-center-justified: {
-        -ms-flex-pack: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-      };
-
-      --layout-end-justified: {
-        -ms-flex-pack: end;
-        -webkit-justify-content: flex-end;
-        justify-content: flex-end;
-      };
-
-      --layout-around-justified: {
-        -ms-flex-pack: distribute;
-        -webkit-justify-content: space-around;
-        justify-content: space-around;
-      };
-
-      --layout-justified: {
-        -ms-flex-pack: justify;
-        -webkit-justify-content: space-between;
-        justify-content: space-between;
-      };
-
-      --layout-center-center: {
-        @apply --layout-center;
-        @apply --layout-center-justified;
-      };
-
-      /* self alignment */
-
-      --layout-self-start: {
-        -ms-align-self: flex-start;
-        -webkit-align-self: flex-start;
-        align-self: flex-start;
-      };
-
-      --layout-self-center: {
-        -ms-align-self: center;
-        -webkit-align-self: center;
-        align-self: center;
-      };
-
-      --layout-self-end: {
-        -ms-align-self: flex-end;
-        -webkit-align-self: flex-end;
-        align-self: flex-end;
-      };
-
-      --layout-self-stretch: {
-        -ms-align-self: stretch;
-        -webkit-align-self: stretch;
-        align-self: stretch;
-      };
-
-      --layout-self-baseline: {
-        -ms-align-self: baseline;
-        -webkit-align-self: baseline;
-        align-self: baseline;
-      };
-
-      /* multi-line alignment in main axis */
-
-      --layout-start-aligned: {
-        -ms-flex-line-pack: start;  /* IE10 */
-        -ms-align-content: flex-start;
-        -webkit-align-content: flex-start;
-        align-content: flex-start;
-      };
-
-      --layout-end-aligned: {
-        -ms-flex-line-pack: end;  /* IE10 */
-        -ms-align-content: flex-end;
-        -webkit-align-content: flex-end;
-        align-content: flex-end;
-      };
-
-      --layout-center-aligned: {
-        -ms-flex-line-pack: center;  /* IE10 */
-        -ms-align-content: center;
-        -webkit-align-content: center;
-        align-content: center;
-      };
-
-      --layout-between-aligned: {
-        -ms-flex-line-pack: justify;  /* IE10 */
-        -ms-align-content: space-between;
-        -webkit-align-content: space-between;
-        align-content: space-between;
-      };
-
-      --layout-around-aligned: {
-        -ms-flex-line-pack: distribute;  /* IE10 */
-        -ms-align-content: space-around;
-        -webkit-align-content: space-around;
-        align-content: space-around;
-      };
-
-      /*******************************
-                Other Layout
-      *******************************/
-
-      --layout-block: {
-        display: block;
-      };
-
-      --layout-invisible: {
-        visibility: hidden !important;
-      };
-
-      --layout-relative: {
-        position: relative;
-      };
-
-      --layout-fit: {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-      };
-
-      --layout-scroll: {
-        -webkit-overflow-scrolling: touch;
-        overflow: auto;
-      };
-
-      --layout-fullbleed: {
-        margin: 0;
-        height: 100vh;
-      };
-
-      /* fixed position */
-
-      --layout-fixed-top: {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-      };
-
-      --layout-fixed-right: {
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-      };
-
-      --layout-fixed-bottom: {
-        position: fixed;
-        right: 0;
-        bottom: 0;
-        left: 0;
-      };
-
-      --layout-fixed-left: {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-      };
-
-    }
-  </style>
-</custom-style>
-`;
-template.setAttribute('style', 'display: none;');
-document.head.appendChild(template.content);
-
 class SegaButton extends HTMLElement {
   static sheet = (() => {
     const s = new CSSStyleSheet();
     s.replaceSync(`
       :host { display: inline-block; }
-      button { background: var(--md-sys-color-primary); border-radius: 99px; padding: 8px 16px; border: none; cursor: pointer; color: var(--md-sys-color-on-primary);font-family:var(--font-lad-0-default); }
+      button { background: var(--md-sys-color-primary); border-radius: 99px; padding: 8px 16px; border: none; cursor: pointer; color: var(--md-sys-color-on-primary);font-family:var(--font-sega-default); }
     `);
     return s;
   })();
@@ -1927,1289 +1215,740 @@ class SegaButton extends HTMLElement {
 if (!customElements.get('sega-button')) {
   customElements.define('sega-button', SegaButton);
 }
-var sharedPanel = null;
+class SegaAppBar extends LitElement {
+  static styles = css`
+      :host {
+        display: block;
+      }
 
-function classNames(obj) {
-  var classes = [];
-  for (var key in obj) {
-    if (obj.hasOwnProperty(key) && obj[key]) {
-      classes.push(key);
-    }
-  }
-
-  return classes.join(' ');
+      header[data-theme=sega] {
+    background-color: var(--color-sega-tertiary-900,#0d1126)
 }
 
-Polymer({
-  /** @override */
-  _template: html`
-    <style>
-      :host {
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-      }
+header[data-theme=sega].header-ph {
+    background-color: var(--color-white,#fff)
+}
 
-      #drawer {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        background-color: var(--md-sys-color-surface-container);
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        @apply --paper-drawer-panel-drawer-container;
-      }
+header[data-theme=sega].header-ph.layout-desktop section .section-content .column-wrapper .component.component--menu_main,header[data-theme=sega].header-ph.layout-desktop section .section-content .column-wrapper .component.component--menu_main .content-wrapper,header[data-theme=sega].header-ph.layout-desktop section .section-content .column-wrapper .component.component--menu_main .content-wrapper nav.navigation,header[data-theme=sega].header-ph.layout-desktop section .section-content .column-wrapper .component.component--menu_main .content-wrapper nav.navigation ul.menu.menu--depth--0 {
+    height: 100%
+}
 
-      .transition-drawer {
-        transition: -webkit-transform ease-in-out 0.3s, width ease-in-out 0.3s, visibility 0.3s;
-        transition: transform ease-in-out 0.3s, width ease-in-out 0.3s, visibility 0.3s;
-      }
+header[data-theme=sega].header-ph.layout-desktop section .section-content .column-wrapper .component.component--menu_main .content-wrapper nav.navigation ul.menu .menu-item {
+    color: var(--color-sega-primary-700,#003499);
+    transition-property: all;
+    transition-timing-function: var(--tw-ease,var(--default-transition-timing-function,cubic-bezier(.4,0,.2,1)));
+    transition-duration: var(--tw-duration,var(--default-transition-duration,.15s));
+    --tw-duration: .3s;
+    --tw-ease: linear;
+    transition-duration: .3s;
+    transition-timing-function: linear
+}
 
-      .left-drawer > #drawer {
-        @apply --paper-drawer-panel-left-drawer-container;
-      }
+header[data-theme=sega].header-ph.layout-desktop section .section-content .column-wrapper .component.component--menu_main .content-wrapper nav.navigation ul.menu .menu-item .menu-link-wrapper {
+    justify-content: space-between;
+    align-items: center;
+    display: flex
+}
 
-      .right-drawer > #drawer {
-        left: auto;
-        right: 0;
-        @apply --paper-drawer-panel-right-drawer-container;
-      }
+header[data-theme=sega].header-ph.layout-desktop section .section-content .column-wrapper .component.component--menu_main .content-wrapper nav.navigation ul.menu .menu-item:before {
+    content: "";
+    top: var(--spacing-0,0);
+    left: var(--spacing-0,0);
+    width: 100%;
+    height: 100%;
+    transition-property: all;
+    transition-timing-function: var(--tw-ease,var(--default-transition-timing-function,cubic-bezier(.4,0,.2,1)));
+    transition-duration: var(--tw-duration,var(--default-transition-duration,.15s));
+    --tw-duration: .3s;
+    --tw-ease: linear;
+    z-index: -1;
+    background-color: #0000;
+    transition-duration: .3s;
+    transition-timing-function: linear;
+    display: block;
+    position: absolute
+}
 
-      #main {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        @apply --paper-drawer-panel-main-container;
-      }
+header[data-theme=sega].header-ph.layout-desktop section .section-content .column-wrapper .component.component--menu_main .content-wrapper nav.navigation ul.menu .menu-item.menu-item--active-trail {
+    cursor: default;
+    --tw-font-weight: var(--font-weight-bold,700);
+    font-weight: var(--font-weight-bold,700)
+}
 
-      .transition > #main {
-        transition: left ease-in-out 0.3s, padding ease-in-out 0.3s;
-      }
+header[data-theme=sega].header-ph.layout-desktop section .section-content .column-wrapper .component.component--menu_main .content-wrapper nav.navigation ul.menu .menu-item.menu-item--active-trail>.menu-link-wrapper>.link {
+    cursor: default
+}
 
-      .right-drawer > #main {
-        left: 0;
-      }
+header[data-theme=sega].header-ph.layout-desktop section .section-content .column-wrapper .component.component--menu_main .content-wrapper nav.navigation ul.menu .menu-item:not(.menu-item--active-trail):hover {
+    color: var(--color-white,#fff)
+}
 
-      .right-drawer.transition > #main {
-        transition: right ease-in-out 0.3s, padding ease-in-out 0.3s;
-      }
+header[data-theme=sega].header-ph.layout-desktop section .section-content .column-wrapper .component.component--menu_main .content-wrapper nav.navigation ul.menu .menu-item:not(.menu-item--active-trail):hover:before {
+    background-color: var(--color-sega-primary-800,#002366)
+}
 
-      #main > ::slotted(*) {
-        height: 100%;
-      }
+header[data-theme=sega].header-ph.layout-desktop section .section-content .column-wrapper .component.component--menu_main .content-wrapper nav.navigation ul.menu .menu-item.menu-item--depth--0 {
+    padding: var(--spacing-16,1rem);
+    display: flex
+}
 
-      #drawer > ::slotted(*) {
-        height: 100%;
-      }
+header[data-theme=sega].header-ph.layout-desktop section .section-content .column-wrapper .component.component--menu_main .content-wrapper nav.navigation ul.menu .menu-item.menu-item--depth--0:before {
+    transform: skew(-15deg)
+}
 
-      #scrim {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        visibility: hidden;
-        opacity: 0;
-        transition: opacity ease-in-out 0.38s, visibility ease-in-out 0.38s;
-        background-color: rgba(0, 0, 0, 0.3);
-        @apply --paper-drawer-panel-scrim;
-      }
+header[data-theme=sega].header-ph.layout-mobile .header-wrapper button.mobile-nav-toggle:after,header[data-theme=sega].header-ph.layout-mobile .header-wrapper button.mobile-nav-toggle .mobile-nav-toggle-content:before,header[data-theme=sega].header-ph.layout-mobile .header-wrapper button.mobile-nav-toggle .mobile-nav-toggle-content:after {
+    background-color: var(--color-sega-primary-700,#003499)
+}
 
-      .narrow-layout > #drawer {
-        will-change: transform;
-      }
+header[data-theme=sega].layout-mobile.sticky {
+    z-index: 11
+}
 
-      .narrow-layout > #drawer.iron-selected {
-        
-      }
+header[data-theme=sega].layout-mobile .header-wrapper .header-logos {
+    padding-block:var(--spacing-16,1rem);margin-right: auto
+}
 
-      .right-drawer.narrow-layout > #drawer.iron-selected {
-        
-      }
+header[data-theme=sega].layout-mobile .header-wrapper button.mobile-nav-toggle:after,header[data-theme=sega].layout-mobile .header-wrapper button.mobile-nav-toggle .mobile-nav-toggle-content:before,header[data-theme=sega].layout-mobile .header-wrapper button.mobile-nav-toggle .mobile-nav-toggle-content:after {
+    background-color: var(--color-sega-light-0,#fff)
+}
 
-      .narrow-layout > #drawer > ::slotted(*) {
-        border: 0;
-      }
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.header--signup-link .component.component--cta .content-wrapper a.cta-theme--default {
+    padding-left: 3.5rem
+}
 
-      .left-drawer.narrow-layout > #drawer:not(.iron-selected) {
-        visibility: hidden;
-        -webkit-transform: translateX(-100%);
-        transform: translateX(-100%);
-      }
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu {
+    z-index: 20!important
+}
 
-      .right-drawer.narrow-layout > #drawer:not(.iron-selected) {
-        left: auto;
-        visibility: hidden;
-        -webkit-transform: translateX(100%);
-        transform: translateX(100%);
-      }
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main,header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper,header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation,header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu.menu--depth--0 {
+    height: 100%
+}
 
-      .left-drawer.dragging > #drawer:not(.iron-selected),
-      .left-drawer.peeking > #drawer:not(.iron-selected),
-      .right-drawer.dragging > #drawer:not(.iron-selected),
-      .right-drawer.peeking > #drawer:not(.iron-selected) {
-        visibility: visible;
-      }
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu.expand-down {
+    --offset: 0px;
+    --skew: 0deg
+}
 
-      .narrow-layout > #main {
-        padding: 0;
-      }
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu.expand-right {
+    --offset: 10px;
+    --skew: 14deg
+}
 
-      .right-drawer.narrow-layout > #main {
-        left: 0;
-        right: 0;
-      }
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu.menu--depth--1 {
+    top: 100%;
+    left: var(--spacing-0,0);
+    flex-direction: column;
+    min-width: 100%;
+    display: flex
+}
 
-      .narrow-layout > #main:not(.iron-selected) > #scrim,
-      .dragging > #main > #scrim {
-        visibility: visible;
-        opacity: var(--paper-drawer-panel-scrim-opacity, 1);
-      }
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu.menu--depth--1 li {
+    width: 100%
+}
 
-      .narrow-layout > #main > * {
-        margin: 0;
-        min-height: 100%;
-        left: 0;
-        right: 0;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-      }
-    </style>
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu.menu--depth--1 li:first-child {
+    left: 0
+}
 
-    <iron-media-query id="mq" on-query-matches-changed="_onQueryMatchesChanged" query="[[_computeMediaQuery(forceNarrow, responsiveWidth)]]">
-    </iron-media-query>
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu.menu--depth--1 li:nth-child(2) {
+    left: var(--offset)
+}
 
-    <iron-selector attr-for-selected="id" class$="[[_computeIronSelectorClass(narrow, _transition, dragging, rightDrawer, peeking)]]" on-transitionend="_onTransitionEnd" activate-event selected="[[selected]]">
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu.menu--depth--1 li:nth-child(3) {
+    left: calc(var(--offset)*2)
+}
 
-      <div id="main">
-        <slot name="main"></slot>
-        <div id="scrim" on-tap="closeDrawer"></div>
-      </div>
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu.menu--depth--1 li:nth-child(4) {
+    left: calc(var(--offset)*3)
+}
 
-      <div id="drawer">
-        <slot id="drawerSlot" name="drawer"></slot>
-      </div>
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu.menu--depth--1 li:nth-child(5) {
+    left: calc(var(--offset)*4)
+}
 
-    </iron-selector>
-`,
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu.menu--depth--1 li:nth-child(6) {
+    left: calc(var(--offset)*5)
+}
 
-  is: 'tp-sega-md-nav-drawer-panel',
-  behaviors: [IronResizableBehavior],
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu.menu--depth--1 li:nth-child(7) {
+    left: calc(var(--offset)*6)
+}
 
-  /**
-   * Fired when the narrow layout changes.
-   *
-   * @event paper-responsive-change {{narrow: boolean}} detail -
-   *     narrow: true if the panel is in narrow layout.
-   */
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu.menu--depth--1 li:nth-child(8) {
+    left: calc(var(--offset)*7)
+}
 
-  /**
-   * Fired when the a panel is selected.
-   *
-   * Listening for this event is an alternative to observing changes in the
-   * `selected` attribute. This event is fired both when a panel is selected.
-   *
-   * @event iron-select {{item: Object}} detail -
-   *     item: The panel that the event refers to.
-   */
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu.menu--depth--1 li:nth-child(9) {
+    left: calc(var(--offset)*8)
+}
 
-  /**
-   * Fired when a panel is deselected.
-   *
-   * Listening for this event is an alternative to observing changes in the
-   * `selected` attribute. This event is fired both when a panel is deselected.
-   *
-   * @event iron-deselect {{item: Object}} detail -
-   *     item: The panel that the event refers to.
-   */
-  properties: {
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu.menu--depth--1 li:nth-child(10) {
+    left: calc(var(--offset)*9)
+}
 
-    /**
-     * The panel to be selected when `paper-drawer-panel` changes to narrow
-     * layout.
-     */
-    defaultSelected: {type: String, value: 'main'},
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu .menu-item {
+    position: relative
+}
 
-    /**
-     * If true, swipe from the edge is disabled.
-     */
-    disableEdgeSwipe: {type: Boolean, value: false},
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu .menu-item .menu-link-wrapper {
+    justify-content: space-between;
+    align-items: center;
+    display: flex
+}
 
-    /**
-     * If true, swipe to open/close the drawer is disabled.
-     */
-    disableSwipe: {type: Boolean, value: false},
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu .menu-item .menu-link-wrapper .link {
+    width: 100%
+}
 
-    /**
-     * Whether the user is dragging the drawer interactively.
-     */
-    dragging: {type: Boolean, value: false, readOnly: true, notify: true},
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu .menu-item .menu-link-wrapper .menu-link-toggle {
+    height: var(--spacing-20,1.25rem);
+    width: var(--spacing-20,1.25rem);
+    margin-left: var(--spacing-8,.5rem);
+    background-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2024%2024%22%20strokeWidth%3D%224%22%20stroke%3D%22white%22%3E%3Cpath%20strokeLinecap%3D%22round%22%20strokeLinejoin%3D%22round%22%20d%3D%22m19.5%208.25-7.5%207.5-7.5-7.5%22%20%2F%3E%3C%2Fsvg%3E);
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: 1.25rem
+}
 
-    /**
-     * Width of the drawer panel.
-     */
-    drawerWidth: {type: String, value: '256px'},
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu .menu-item:before {
+    content: "";
+    top: var(--spacing-0,0);
+    left: var(--spacing-0,0);
+    background-color: var(--color-sega-tertiary-900,#0d1126);
+    width: 100%;
+    height: 100%;
+    transition-property: all;
+    transition-timing-function: var(--tw-ease,var(--default-transition-timing-function,cubic-bezier(.4,0,.2,1)));
+    transition-duration: var(--tw-duration,var(--default-transition-duration,.15s));
+    --tw-duration: .3s;
+    --tw-ease: linear;
+    z-index: -1;
+    transition-duration: .3s;
+    transition-timing-function: linear;
+    display: block;
+    position: absolute
+}
 
-    /**
-     * The attribute on elements that should toggle the drawer on tap, also
-     * elements will automatically be hidden in wide layout.
-     */
-    drawerToggleAttribute: {type: String, value: 'paper-drawer-toggle'},
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu .menu-item:hover:before {
+    background-color: var(--color-sega-primary-800,#002366)
+}
 
-    /**
-     * How many pixels on the side of the screen are sensitive to edge
-     * swipes and peek.
-     */
-    edgeSwipeSensitivity: {type: Number, value: 30},
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu .menu-item.menu-item--depth--0 {
+    align-items: center;
+    height: 100%;
+    display: flex
+}
 
-    /**
-     * If true, ignore `responsiveWidth` setting and force the narrow layout.
-     */
-    forceNarrow: {type: Boolean, value: false},
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu .menu-item.menu-item--depth--0:before {
+    transform: skew(-15deg)
+}
 
-    /**
-     * Whether the browser has support for the transform CSS property.
-     */
-    hasTransform: {
-      type: Boolean,
-      value: function() {
-        return 'transform' in this.style;
-      }
-    },
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu .menu-item.menu-item--depth--0 .menu-link-wrapper {
+    height: 100%
+}
 
-    /**
-     * Whether the browser has support for the will-change CSS property.
-     */
-    hasWillChange: {
-      type: Boolean,
-      value: function() {
-        return 'willChange' in this.style;
-      }
-    },
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu .menu-item.menu-item--depth--0 .menu-link-wrapper a,header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu .menu-item.menu-item--depth--0 .menu-link-wrapper span {
+    height: 100%;
+    padding-inline:var(--spacing-16,1rem);align-items: center;
+    display: flex
+}
 
-    /**
-     * Returns true if the panel is in narrow layout.  This is useful if you
-     * need to show/hide elements based on the layout.
-     */
-    narrow: {
-      reflectToAttribute: true,
-      type: Boolean,
-      value: false,
-      readOnly: true,
-      notify: true
-    },
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu .menu-item:not(.menu-item--depth--0):before {
+    transform: skew(var(--skew))
+}
 
-    /**
-     * Whether the drawer is peeking out from the edge.
-     */
-    peeking: {type: Boolean, value: false, readOnly: true, notify: true},
+header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu .menu-item:not(.menu-item--depth--0) .menu-link-wrapper a,header[data-theme=sega].layout-desktop section .section-content .column-wrapper.menu .component.component--menu_main .content-wrapper nav.navigation ul.menu .menu-item:not(.menu-item--depth--0) .menu-link-wrapper span {
+    padding-inline:var(--spacing-16,1rem);padding-block: var(--spacing-8,.5rem)
+}
 
-    /**
-     * Max-width when the panel changes to narrow layout.
-     */
-    responsiveWidth: {type: String, value: '768px'},
+header[data-theme=sega] .header-wrapper {
+    align-items: center
+}
 
-    /**
-     * If true, position the drawer to the right.
-     */
-    rightDrawer: {type: Boolean, value: false},
+header[data-theme=sega] .header-wrapper:not(:empty) {
+    padding: 0
+}
 
-    /**
-     * The panel that is being selected. `drawer` for the drawer panel and
-     * `main` for the main panel.
-     *
-     * @type {string|null}
-     */
-    selected:
-        {reflectToAttribute: true, notify: true, type: String, value: null},
+header[data-theme=sega] .header-wrapper .header-logos .component--logo .content-wrapper .logo,header[data-theme=sega] .header-wrapper .header-logos .component--logo .content-wrapper .logo a {
+    height: 2rem
+}
 
-    /**
-     * The CSS selector for the element that should receive focus when the
-     * drawer is open. By default, when the drawer opens, it focuses the first
-     * tabbable element. That is, the first element that can receive focus.
-     *
-     * To disable this behavior, you can set `drawerFocusSelector` to `null` or
-     * an empty string.
-     *
-     */
-    drawerFocusSelector: {
-      type: String,
-      value: 'a[href]:not([tabindex="-1"]),' +
-          'area[href]:not([tabindex="-1"]),' +
-          'input:not([disabled]):not([tabindex="-1"]),' +
-          'select:not([disabled]):not([tabindex="-1"]),' +
-          'textarea:not([disabled]):not([tabindex="-1"]),' +
-          'button:not([disabled]):not([tabindex="-1"]),' +
-          'iframe:not([tabindex="-1"]),' +
-          '[tabindex]:not([tabindex="-1"]),' +
-          '[contentEditable=true]:not([tabindex="-1"])'
-    },
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user {
+    margin-left: var(--spacing-8,.5rem);
+    font-family: var(--font-sega-default,Poppins,sans-serif);
+    color: var(--color-white,#fff)
+}
 
-    /**
-     * Whether the transition is enabled.
-     */
-    _transition: {type: Boolean, value: false},
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .menu--user--content .button-register--wrapper .button-register {
+    min-width: fit-content;
+    padding-inline:var(--spacing-32,2rem);text-align: center;
+    font-family: var(--font-sega-headings,Inter Tight,sans-serif);
+    --tw-font-weight: var(--font-weight-bold,700);
+    font-weight: var(--font-weight-bold,700);
+    color: var(--color-white,#fff);
+    text-transform: uppercase;
+    transition-property: opacity;
+    transition-timing-function: var(--tw-ease,var(--default-transition-timing-function,cubic-bezier(.4,0,.2,1)));
+    transition-duration: var(--tw-duration,var(--default-transition-duration,.15s));
+    --tw-duration: .3s;
+    --tw-ease: linear;
+    z-index: 0;
+    transition-duration: .3s;
+    transition-timing-function: linear
+}
 
-  },
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .menu--user--content .button-register--wrapper .button-register:before {
+    content: "";
+    top: var(--spacing-0,0);
+    left: var(--spacing-0,0);
+    z-index: -1;
+    background-color: var(--color-sega-primary-0,#0057ff);
+    outline-style: var(--tw-outline-style);
+    outline-width: 1px;
+    outline-color: var(--color-sega-primary-0,#0057ff);
+    width: 100%;
+    height: 100%;
+    transition-property: opacity;
+    transition-timing-function: var(--tw-ease,var(--default-transition-timing-function,cubic-bezier(.4,0,.2,1)));
+    transition-duration: var(--tw-duration,var(--default-transition-duration,.15s));
+    --tw-duration: .3s;
+    --tw-ease: linear;
+    clip-path: polygon(17px 0,100% 0,calc(100% - 17px) 100%,0 100%);
+    transition-duration: .3s;
+    transition-timing-function: linear;
+    position: absolute
+}
 
-  listeners: {
-    tap: '_onTap',
-    track: '_onTrack',
-    down: '_downHandler',
-    up: '_upHandler'
-  },
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .menu--user--content .button-register--wrapper .button-register:hover:before {
+    background-color: var(--color-sega-tertiary-0,#3649a5)
+}
 
-  observers: [
-    '_forceNarrowChanged(forceNarrow, defaultSelected)',
-    '_toggleFocusListener(selected)',
-    '_setMainStyle(narrow, rightDrawer, drawerWidth)',
-    '_setDrawerStyle(drawerWidth)'
-  ],
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .menu--user--content .user-name {
+    padding-inline:var(--spacing-16,1rem)}
 
-  /** @override */
-  ready: function() {
-    // Avoid transition at the beginning e.g. page loads and enable
-    // transitions only after the element is rendered and ready.
-    this._transition = true;
-    this._boundFocusListener = this._didFocus.bind(this);
-    console.warn(this.is, 'is deprecated. Please use app-layout instead!');
-  },
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .menu--user--content .user-menu-toggle {
+    padding: var(--spacing-16,1rem)
+}
 
-  /**
-   * Toggles the panel open and closed.
-   *
-   * @method togglePanel
-   */
-  togglePanel: function() {
-    if (this._isMainSelected()) {
-      this.openDrawer();
-    } else {
-      this.closeDrawer();
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .menu--user--content .user-menu-toggle.active .icon:after {
+    right: calc(var(--spacing-4,.25rem)*-1);
+    bottom: calc(var(--spacing-4,.25rem)*-1);
+    height: var(--spacing-8,.5rem);
+    width: var(--spacing-8,.5rem);
+    border-radius: var(--radius-full,9999px);
+    background-color: var(--color-sega-success-0,#479f66);
+    --tw-content: "";
+    content: var(--tw-content);
+    display: block;
+    position: absolute
+}
+
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .menu--user--content .user-menu-toggle svg {
+    height: var(--spacing-16,1rem);
+    width: var(--spacing-16,1rem)
+}
+
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .user-menu {
+    background-color: var(--color-sega-tertiary-900,#0d1126)
+}
+
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .user-menu.options-single .button-login {
+    padding-block:var(--spacing-16,1rem);--tw-font-weight: var(--font-weight-bold,700);
+    font-weight: var(--font-weight-bold,700)
+}
+
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .user-menu.options-multiple {
+    gap: var(--spacing-8,.5rem);
+    padding-top: var(--spacing-20,1.25rem);
+    padding-bottom: var(--spacing-12,.75rem)
+}
+
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .user-menu.options-multiple .login-label {
+    padding-inline:var(--spacing-16,1rem);--tw-font-weight: var(--font-weight-bold,700);
+    font-weight: var(--font-weight-bold,700)
+}
+
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .user-menu.options-multiple .login-providers {
+    gap: var(--spacing-8,.5rem)
+}
+
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .user-menu.options-multiple .login-providers .login-provider {
+    flex-direction: column
+}
+
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .user-menu.options-multiple .login-providers .login-provider .button-login {
+    padding-block:var(--spacing-8,.5rem);text-align: start
+}
+
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .user-menu.options-multiple .login-providers .login-provider .button-register {
+    padding-block:var(--spacing-4,.25rem);padding-right: var(--spacing-16,1rem);
+    padding-left: var(--spacing-32,2rem);
+    text-align: start
+}
+
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .user-menu.logged-in {
+    gap: var(--spacing-8,.5rem);
+    padding-top: var(--spacing-20,1.25rem);
+    padding-bottom: var(--spacing-12,.75rem)
+}
+
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .user-menu.logged-in:has(.button-logout:only-child) {
+    padding: var(--spacing-0,0)
+}
+
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .user-menu.logged-in:has(.button-logout:only-child) .button-logout {
+    padding-block:var(--spacing-16,1rem);--tw-font-weight: var(--font-weight-bold,700);
+    font-weight: var(--font-weight-bold,700)
+}
+
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .user-menu.logged-in .user-menu--links .user-menu--link {
+    padding-inline:var(--spacing-16,1rem);padding-block: var(--spacing-8,.5rem)
+}
+
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .user-menu.logged-in .user-menu--links .user-menu--link:before {
+    content: "";
+    top: var(--spacing-0,0);
+    left: var(--spacing-0,0);
+    width: 100%;
+    height: 100%;
+    transition-property: all;
+    transition-timing-function: var(--tw-ease,var(--default-transition-timing-function,cubic-bezier(.4,0,.2,1)));
+    transition-duration: var(--tw-duration,var(--default-transition-duration,.15s));
+    --tw-duration: .3s;
+    --tw-ease: linear;
+    background-color: #0000;
+    transition-duration: .3s;
+    transition-timing-function: linear;
+    display: block;
+    position: absolute
+}
+
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .user-menu.logged-in .user-menu--links .user-menu--link:before:hover {
+    background-color: var(--color-sega-primary-800,#002366)
+}
+
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .user-menu.logged-in .user-menu--links .user-menu--link:before {
+    z-index: -1
+}
+
+header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .user-menu .button-login,header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .user-menu .button-logout {
+    cursor: pointer;
+    padding-inline:var(--spacing-16,1rem);display: inline-block;
+    position: relative
+}
+
+:is(header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .user-menu .button-login,header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .user-menu .button-logout):before {
+    content: "";
+    top: var(--spacing-0,0);
+    left: var(--spacing-0,0);
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    transition-property: all;
+    transition-timing-function: var(--tw-ease,var(--default-transition-timing-function,cubic-bezier(.4,0,.2,1)));
+    transition-duration: var(--tw-duration,var(--default-transition-duration,.15s));
+    --tw-duration: .3s;
+    --tw-ease: linear;
+    background-color: #0000;
+    transition-duration: .3s;
+    transition-timing-function: linear;
+    display: block;
+    position: absolute
+}
+
+:is(header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .user-menu .button-login,header[data-theme=sega] .header-wrapper .features-wrapper .menu--user .user-menu .button-logout):hover:before {
+    background-color: var(--color-sega-primary-800,#002366)
+}
+
+header[data-theme=sega] .header-wrapper .features-wrapper .basket-icon {
+    color: var(--color-white,#fff)
+}
+
+:is(header[data-theme=sega],.mobile-navigation-wrapper[data-theme=sega]) .component.component--menu_main .content-wrapper nav.navigation .menu .menu-item .menu-link {
+    font-family: var(--font-sega-headings,Inter Tight,sans-serif);
+    text-transform: uppercase;
+    font-weight: 800
+}
+
+:is(header[data-theme=sega],.mobile-navigation-wrapper[data-theme=sega]) .component.component--menu_main .content-wrapper nav.navigation .menu .menu-item .menu-link-wrapper {
+    justify-content: space-between;
+    align-items: center;
+    display: flex
+}
+
+:is(header[data-theme=sega],.mobile-navigation-wrapper[data-theme=sega]) .component.component--menu_main .content-wrapper nav.navigation .menu .menu-item .menu-link-wrapper .menu-link-toggle {
+    height: var(--spacing-20,1.25rem);
+    width: var(--spacing-20,1.25rem);
+    margin-left: var(--spacing-8,.5rem);
+    background-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2024%2024%22%20strokeWidth%3D%224%22%20stroke%3D%22white%22%3E%3Cpath%20strokeLinecap%3D%22round%22%20strokeLinejoin%3D%22round%22%20d%3D%22m19.5%208.25-7.5%207.5-7.5-7.5%22%20%2F%3E%3C%2Fsvg%3E);
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: 1.25rem
+}
+
+:is(header[data-theme=sega],.mobile-navigation-wrapper[data-theme=sega]) .component.component--cta .content-wrapper a.cta-theme--default:before {
+    transition-property: all;
+    transition-timing-function: var(--tw-ease,var(--default-transition-timing-function,cubic-bezier(.4,0,.2,1)));
+    transition-duration: var(--tw-duration,var(--default-transition-duration,.15s));
+    --tw-duration: .3s;
+    --tw-ease: linear;
+    background-position: 2rem;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    transition-duration: .3s;
+    transition-timing-function: linear;
+    outline-width: 0!important
+}
+
+@media screen and (min-width: 480px) {
+    :is(header[data-theme=sega],.mobile-navigation-wrapper[data-theme=sega]) .component.component--cta .content-wrapper a.cta-theme--default:before {
+        background-image:url("data:image/svg+xml,%3Csvg fill='none' version='1.1' viewBox='0 0 20 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m16.599 2-6.5789 6.1089-6.6103-6.1089zm1.5696 1.2718-7.4664 6.933-0.6788 0.6303-0.6804-0.6287-7.5114-6.9416v10.735h16.337zm-18.168-3.2718h20v16h-20z' clip-rule='evenodd' fill='%23fff' fill-rule='evenodd'/%3E%3C/svg%3E%0A")
     }
-  },
-
-  /**
-   * Opens the drawer.
-   *
-   * @method openDrawer
-   */
-  openDrawer: function() {
-    requestAnimationFrame(function() {
-      this.toggleClass('transition-drawer', true, this.$.drawer);
-      this.selected = 'drawer';
-    }.bind(this));
-  },
-
-  /**
-   * Closes the drawer.
-   *
-   * @method closeDrawer
-   */
-  closeDrawer: function() {
-    requestAnimationFrame(function() {
-      this.toggleClass('transition-drawer', true, this.$.drawer);
-      this.selected = 'main';
-    }.bind(this));
-  },
-
-  _onTransitionEnd: function(e) {
-    var target = dom(e).localTarget;
-    if (target !== this.$.drawer) {
-      // ignore events coming from the light dom
-      return;
-    }
-    if (e.propertyName === 'left' || e.propertyName === 'right') {
-      this.notifyResize();
-    }
-    if (e.propertyName === 'transform') {
-      requestAnimationFrame(function() {
-        this.toggleClass('transition-drawer', false, this.$.drawer);
-      }.bind(this));
-      if (this.selected === 'drawer') {
-        var focusedChild = this._getAutoFocusedNode();
-        focusedChild && focusedChild.focus();
-      }
-    }
-  },
-
-  _computeIronSelectorClass: function(
-      narrow, transition, dragging, rightDrawer, peeking) {
-    return classNames({
-      dragging: dragging,
-      'narrow-layout': narrow,
-      'right-drawer': rightDrawer,
-      'left-drawer': !rightDrawer,
-      transition: transition,
-      peeking: peeking
-    });
-  },
-
-  _setDrawerStyle: function(drawerWidth) {
-    this.$.drawer.style.width = drawerWidth;
-  },
-
-  _setMainStyle: function(narrow, rightDrawer, drawerWidth) {
-    this.$.main.style.left = (narrow || rightDrawer) ? '0' : drawerWidth;
-
-    if (rightDrawer) {
-      this.$.main.style.right = narrow ? '' : drawerWidth;
-    }
-  },
-
-  _computeMediaQuery: function(forceNarrow, responsiveWidth) {
-    return forceNarrow ? '' : '(max-width: ' + responsiveWidth + ')';
-  },
-
-  _computeSwipeOverlayHidden: function(narrow, disableEdgeSwipe) {
-    return !narrow || disableEdgeSwipe;
-  },
-
-  _onTrack: function(event) {
-    if (sharedPanel && this !== sharedPanel) {
-      return;
-    }
-    switch (event.detail.state) {
-      case 'start':
-        this._trackStart(event);
-        break;
-      case 'track':
-        this._trackX(event);
-        break;
-      case 'end':
-        this._trackEnd(event);
-        break;
-    }
-  },
-
-  _responsiveChange: function(narrow) {
-    this._setNarrow(narrow);
-    this.selected = this.narrow ? this.defaultSelected : null;
-    this.setScrollDirection(this._swipeAllowed() ? 'y' : 'all');
-    this.fire('paper-responsive-change', {narrow: this.narrow});
-  },
-
-  _onQueryMatchesChanged: function(event) {
-    this._responsiveChange(event.detail.value);
-  },
-
-  _forceNarrowChanged: function() {
-    // set the narrow mode only if we reached the `responsiveWidth`
-    this._responsiveChange(this.forceNarrow || this.$.mq.queryMatches);
-  },
-
-  _swipeAllowed: function() {
-    return this.narrow && !this.disableSwipe;
-  },
-
-  _isMainSelected: function() {
-    return this.selected === 'main';
-  },
-
-  _startEdgePeek: function() {
-    this.width = this.$.drawer.offsetWidth;
-    this._moveDrawer(this._translateXForDeltaX(
-        this.rightDrawer ? -this.edgeSwipeSensitivity :
-                           this.edgeSwipeSensitivity));
-    this._setPeeking(true);
-  },
-
-  _stopEdgePeek: function() {
-    if (this.peeking) {
-      this._setPeeking(false);
-      this._moveDrawer(null);
-    }
-  },
-
-  _downHandler: function(event) {
-    if (!this.dragging && this._isMainSelected() && this._isEdgeTouch(event) &&
-        !sharedPanel) {
-      this._startEdgePeek();
-      // cancel selection
-      event.preventDefault();
-      // grab this panel
-      sharedPanel = this;
-    }
-  },
-
-  _upHandler: function() {
-    this._stopEdgePeek();
-    // release the panel
-    sharedPanel = null;
-  },
-
-  _onTap: function(event) {
-    var targetElement = dom(event).localTarget;
-    var isTargetToggleElement = targetElement && this.drawerToggleAttribute &&
-        targetElement.hasAttribute(this.drawerToggleAttribute);
-
-    if (isTargetToggleElement) {
-      this.togglePanel();
-    }
-  },
-
-  _isEdgeTouch: function(event) {
-    var x = event.detail.x;
-
-    return !this.disableEdgeSwipe && this._swipeAllowed() &&
-        (this.rightDrawer ? x >= this.offsetWidth - this.edgeSwipeSensitivity :
-                            x <= this.edgeSwipeSensitivity);
-  },
-
-  _trackStart: function(event) {
-    if (this._swipeAllowed()) {
-      sharedPanel = this;
-      this._setDragging(true);
-
-      if (this._isMainSelected()) {
-        this._setDragging(this.peeking || this._isEdgeTouch(event));
-      }
-
-      if (this.dragging) {
-        this.width = this.$.drawer.offsetWidth;
-        this._transition = false;
-      }
-    }
-  },
-
-  _translateXForDeltaX: function(deltaX) {
-    var isMain = this._isMainSelected();
-
-    if (this.rightDrawer) {
-      return Math.max(0, isMain ? this.width + deltaX : deltaX);
-    } else {
-      return Math.min(0, isMain ? deltaX - this.width : deltaX);
-    }
-  },
-
-  _trackX: function(event) {
-    if (this.dragging) {
-      var dx = event.detail.dx;
-
-      if (this.peeking) {
-        if (Math.abs(dx) <= this.edgeSwipeSensitivity) {
-          // Ignore trackx until we move past the edge peek.
-          return;
-        }
-        this._setPeeking(false);
-      }
-
-      this._moveDrawer(this._translateXForDeltaX(dx));
-    }
-  },
-
-  _trackEnd: function(event) {
-    if (this.dragging) {
-      var xDirection = event.detail.dx > 0;
-
-      this._setDragging(false);
-      this._transition = true;
-      sharedPanel = null;
-      this._moveDrawer(null);
-
-      if (this.rightDrawer) {
-        this[xDirection ? 'closeDrawer' : 'openDrawer']();
-      } else {
-        this[xDirection ? 'openDrawer' : 'closeDrawer']();
-      }
-    }
-  },
-
-  _transformForTranslateX: function(translateX) {
-    if (translateX === null) {
-      return '';
-    }
-    return this.hasWillChange ? 'translateX(' + translateX + 'px)' :
-                                'translate3d(' + translateX + 'px, 0, 0)';
-  },
-
-  _moveDrawer: function(translateX) {
-    this.transform(this._transformForTranslateX(translateX), this.$.drawer);
-  },
-
-  _getDrawerSlot: function() {
-    return dom(this.$.drawerSlot).getDistributedNodes()[0];
-  },
-
-  _getAutoFocusedNode: function() {
-    return this.drawerFocusSelector ?
-        dom(this._getDrawerSlot()).querySelector(this.drawerFocusSelector) :
-        null;
-  },
-
-  _toggleFocusListener: function(selected) {
-    if (selected === 'drawer') {
-      this.addEventListener('focus', this._boundFocusListener, true);
-    } else {
-      this.removeEventListener('focus', this._boundFocusListener, true);
-    }
-  },
-
-  _didFocus: function(event) {
-    var autoFocusedNode = this._getAutoFocusedNode();
-    if (!autoFocusedNode) {
-      return;
-    }
-
-    var path = dom(event).path;
-    var focusedChild = path[0];
-    var drawerSlot = this._getDrawerSlot();
-    var focusedChildCameFromDrawer = path.indexOf(drawerSlot) !== -1;
-
-    if (!focusedChildCameFromDrawer) {
-      event.stopPropagation();
-      autoFocusedNode.focus();
-    }
-  },
-
-  _isDrawerClosed: function(narrow, selected) {
-    return !narrow || selected !== 'drawer';
-  }
-});
-Polymer({
-  /** @override */
-  _template: html`
-    <style>
-      :host {
-        @apply --layout-vertical;
-        position: relative;
-        height: 100%;
-        background-color: var(--md-sys-color-surface-container);
-        color: var(--md-sys-color-on-surface);
-        @apply --paper-header-panel;
-      }
-
-      #mainContainer {
-        @apply --layout-flex;
-        background-color: var(--md-sys-color-surface);
-        border-radius: var(--catalog-shape-xl);
-        color: var(--md-sys-color-on-surface);
-        padding-block: var(--catalog-spacing-xl);
-        padding-inline: var(--catalog-spacing-xl);
-        position: relative;
-        overflow-y: auto;
-        overflow-x: hidden;
-        -webkit-overflow-scrolling: touch;
-      }
-
-      #mainPanel {
-        @apply --layout-vertical;
-        @apply --layout-flex;
-        position: relative;
-        min-height: 0;
-        @apply --paper-header-panel-body;
-      }
-
-      #mainContainer {
-        @apply --paper-header-panel-container;
-      }
-
-      /*
-       * mode: scroll
-       */
-      :host([mode=scroll]) #mainContainer {
-        @apply --paper-header-panel-scroll-container;
-        overflow: visible;
-      }
-
-      :host([mode=scroll]) {
-        overflow-y: auto;
-        overflow-x: hidden;
-        -webkit-overflow-scrolling: touch;
-      }
-
-      /*
-       * mode: cover
-       */
-      :host([mode=cover]) #mainContainer {
-        @apply --paper-header-panel-cover-container;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-      }
-
-      :host([mode=cover]) #mainPanel {
-        position: static;
-      }
-
-      /*
-       * mode: standard
-       */
-      :host([mode=standard]) #mainContainer {
-        @apply --paper-header-panel-standard-container;
-      }
-
-      /*
-       * mode: seamed
-       */
-      :host([mode=seamed]) #mainContainer {
-        @apply --paper-header-panel-seamed-container;
-      }
-
-
-      /*
-       * mode: waterfall
-       */
-      :host([mode=waterfall]) #mainContainer {
-        @apply --paper-header-panel-waterfall-container;
-      }
-
-      /*
-       * mode: waterfall-tall
-       */
-      :host([mode=waterfall-tall]) #mainContainer {
-        @apply --paper-header-panel-waterfall-tall-container;
-      }
-
-      #dropShadow {
-        transition: opacity 0.5s;
-        height: 6px;
-        @apply --paper-header-panel-shadow;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        opacity: 0;
-        pointer-events: none;
-      }
-
-      #dropShadow.has-shadow {
-        opacity: 1;
-      }
-
-      #mainContainer > ::slotted(.fit) {
-        @apply --layout-fit;
-      }
-
-    </style>
-
-    <slot id="headerSlot" name="header"></slot>
-
-    <div id="mainPanel">
-      <div id="mainContainer" class$="[[_computeMainContainerClass(mode)]]">
-        <slot></slot>
-      </div>
-      <div id="dropShadow"></div>
-    </div>
-`,
-
-  is: 'tp-sega-md-header-panel',
-
-  /**
-   * Fired when the content has been scrolled. `event.detail.target` returns
-   * the scrollable element which you can use to access scroll info such as
-   * `scrollTop`.
-   *
-   *     <paper-header-panel on-content-scroll="scrollHandler">
-   *       ...
-   *     </paper-header-panel>
-   *
-   *
-   *     scrollHandler: function(event) {
-   *       var scroller = event.detail.target;
-   *       console.log(scroller.scrollTop);
-   *     }
-   *
-   * @event content-scroll
-   */
-
-  properties: {
-    /**
-     * Controls header and scrolling behavior. Options are
-     * `standard`, `seamed`, `waterfall`, `waterfall-tall`, `scroll` and
-     * `cover`. Default is `standard`.
-     *
-     * `standard`: The header is a step above the panel. The header will consume
-     * the panel at the point of entry, preventing it from passing through to
-     * the opposite side.
-     *
-     * `seamed`: The header is presented as seamed with the panel.
-     *
-     * `waterfall`: Similar to standard mode, but header is initially presented
-     * as seamed with panel, but then separates to form the step.
-     *
-     * `waterfall-tall`: The header is initially taller (`tall` class is added
-     * to the header).  As the user scrolls, the header separates (forming an
-     * edge) while condensing (`tall` class is removed from the header).
-     *
-     * `scroll`: The header keeps its seam with the panel, and is pushed off
-     * screen.
-     *
-     * `cover`: The panel covers the whole `paper-header-panel` including the
-     * header. This allows user to style the panel in such a way that the panel
-     * is partially covering the header.
-     *
-     *     <paper-header-panel mode="cover">
-     *       <paper-toolbar slot="header" class="tall">
-     *         <paper-icon-button icon="menu"></paper-icon-button>
-     *       </paper-toolbar>
-     *       <div></div>
-     *     </paper-header-panel>
-     */
-    mode: {
-      type: String,
-      value: 'standard',
-      observer: '_modeChanged',
-      reflectToAttribute: true
-    },
-
-    /**
-     * If true, the drop-shadow is always shown no matter what mode is set to.
-     */
-    shadow: {type: Boolean, value: false},
-
-    /**
-     * The class used in waterfall-tall mode.  Change this if the header
-     * accepts a different class for toggling height, e.g. "medium-tall"
-     */
-    tallClass: {type: String, value: 'tall'},
-
-    /**
-     * If true, the scroller is at the top
-     */
-    atTop: {
-      type: Boolean,
-      value: true,
-      notify: true,
-      readOnly: true,
-      reflectToAttribute: true
-    }
-  },
-
-  observers: ['_computeDropShadowHidden(atTop, mode, shadow)'],
-
-  /** @override */
-  attached: function() {
-    this._addListener();
-    // Run `scroll` logic once to initialize class names, etc.
-    this._keepScrollingState();
-  },
-
-  /** @override */
-  detached: function() {
-    this._removeListener();
-  },
-
-  /** @override */
-  ready: function() {
-    this.scrollHandler = this._scroll.bind(this);
-    console.warn(this.is, 'is deprecated. Please use app-layout instead!');
-  },
-
-  /**
-   * Returns the header element
-   * @return {!Element|undefined}
-   */
-  get header() {
-    var header = dom(this.$.headerSlot).getDistributedNodes()[0];
-    if (!header) {
-      return undefined;
-    }
-    return /** @type {!Element}*/ (header);
-  },
-
-  /**
-   * Returns the scrollable element.
-   * @return {!HTMLElement}
-   */
-  get scroller() {
-    return this._getScrollerForMode(this.mode);
-  },
-
-  /**
-   * Returns true if the scroller has a visible shadow.
-   * @return {boolean}
-   */
-  get visibleShadow() {
-    return this.$.dropShadow.classList.contains('has-shadow');
-  },
-
-  _computeDropShadowHidden: function(atTop, mode, shadow) {
-    var shadowMode = MODE_CONFIGS.shadowMode[mode];
-
-    if (this.shadow) {
-      this.toggleClass('has-shadow', true, this.$.dropShadow);
-    } else if (shadowMode === SHADOW_ALWAYS) {
-      this.toggleClass('has-shadow', true, this.$.dropShadow);
-    } else if (shadowMode === SHADOW_WHEN_SCROLLING && !atTop) {
-      this.toggleClass('has-shadow', true, this.$.dropShadow);
-    } else {
-      this.toggleClass('has-shadow', false, this.$.dropShadow);
-    }
-  },
-
-  _computeMainContainerClass: function(mode) {
-    // TODO:  It will be useful to have a utility for classes
-    // e.g. Polymer.Utils.classes({ foo: true });
-
-    var classes = {};
-
-    classes['flex'] = mode !== 'cover';
-
-    return Object.keys(classes)
-        .filter(function(className) {
-          return classes[className];
-        })
-        .join(' ');
-  },
-
-  _addListener: function() {
-    this.scroller.addEventListener('scroll', this.scrollHandler);
-  },
-
-  _removeListener: function() {
-    this.scroller.removeEventListener('scroll', this.scrollHandler);
-  },
-
-  _modeChanged: function(newMode, oldMode) {
-    var configs = MODE_CONFIGS;
-    var header = this.header;
-    var animateDuration = 200;
-
-    if (header) {
-      // in tallMode it may add tallClass to the header; so do the cleanup
-      // when mode is changed from tallMode to not tallMode
-      if (configs.tallMode[oldMode] && !configs.tallMode[newMode]) {
-        header.classList.remove(this.tallClass);
-        this.async(function() {
-          header.classList.remove('animate');
-        }, animateDuration);
-      } else {
-        this.toggleClass('animate', configs.tallMode[newMode], header);
-      }
-    }
-    this._keepScrollingState();
-  },
-
-  _keepScrollingState: function() {
-    var main = this.scroller;
-    var header = this.header;
-
-    this._setAtTop(main.scrollTop === 0);
-
-    if (header && this.tallClass && MODE_CONFIGS.tallMode[this.mode]) {
-      this.toggleClass(
-          this.tallClass,
-          this.atTop ||
-              header.classList.contains(this.tallClass) &&
-                  main.scrollHeight < this.offsetHeight,
-          header);
-    }
-  },
-
-  _scroll: function() {
-    this._keepScrollingState();
-    this.fire('content-scroll', {target: this.scroller}, {bubbles: false});
-  },
-
-  _getScrollerForMode: function(mode) {
-    return MODE_CONFIGS.outerScroll[mode] ? this : this.$.mainContainer;
-  }
-});
-Polymer({
-  /** @override */
-  _template: html`
-    <style>
-      :host {
-        --calculated-md-top-app-bar-height: var(--md-top-app-bar-height, 64px);
-        --calculated-md-top-app-bar-sm-height: var(--md-top-app-bar-sm-height, 56px);
-        display: block;
-        position: relative;
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        height: var(--calculated-md-top-app-bar-height);
-        background: var(--md-top-app-bar-background, var(--md-sys-color-surface-container));
-        color: var(--md-top-app-bar-color, var(--md-sys-color-on-surface));
-        @apply --md-top-app-bar;
-      }
-
-      :host(.animate) {
-        transition: var(--md-top-app-bar-transition, height 0.18s ease-in);
-      }
-
-      :host(.medium-tall) {
-        height: calc(var(--calculated-md-top-app-bar-height) * 2);
-        @apply --md-top-app-bar-medium;
-      }
-
-      :host(.tall) {
-        height: calc(var(--calculated-md-top-app-bar-height) * 3);
-        @apply --md-top-app-bar-tall;
-      }
-
-      .toolbar-tools {
-        position: relative;
-        height: var(--calculated-md-top-app-bar-height);
-        padding: 0 16px;
-        pointer-events: none;
-        @apply --layout-horizontal;
-        @apply --layout-center;
-        @apply --md-top-app-bar-content;
-      }
-
-      /*
-       * TODO: Where should media query breakpoints live so they can be shared between elements?
-       */
-
-      @media (max-width: 600px) {
-        :host {
-          height: var(--calculated-md-top-app-bar-sm-height);
-        }
-
-        :host(.medium-tall) {
-          height: calc(var(--calculated-md-top-app-bar-sm-height) * 2);
-        }
-
-        :host(.tall) {
-          height: calc(var(--calculated-md-top-app-bar-sm-height) * 3);
-        }
-
-        .toolbar-tools {
-          height: var(--calculated-md-top-app-bar-sm-height);
-        }
-      }
-
-      #topBar {
-        position: relative;
-      }
-
-      /* middle bar */
-      #middleBar {
-        position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-      }
-
-      :host(.tall) #middleBar,
-      :host(.medium-tall) #middleBar {
-        -webkit-transform: translateY(100%);
-        transform: translateY(100%);
-      }
-
-      /* bottom bar */
-      #bottomBar {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        left: 0;
-      }
-
-      /*
-       * make elements (e.g. buttons) respond to mouse/touch events
-       *
-       * \`.toolbar-tools\` disables touch events so multiple toolbars can stack and not
-       * absorb events. All children must have pointer events re-enabled to work as
-       * expected.
-       */
-      .toolbar-tools > ::slotted(*:not([disabled])) {
-        pointer-events: auto;
-      }
-
-      .toolbar-tools > ::slotted(.title) {
-        @apply --paper-font-common-base;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        font-size: 20px;
-        font-weight: 400;
-        line-height: 1;
-        pointer-events: none;
-        @apply --layout-flex;
-      }
-
-      .toolbar-tools > ::slotted(.title) {
-        margin-left: 56px;
-      }
-
-      .toolbar-tools > ::slotted(paper-icon-button + .title) {
-        margin-left: 0;
-      }
-
-      /**
-       * The --md-top-app-bar-title mixin is applied here instead of above to
-       * fix the issue with margin-left being ignored due to css ordering.
-       */
-      .toolbar-tools > ::slotted(.title) {
-        @apply --md-top-app-bar-title;
-      }
-
-      .toolbar-tools > ::slotted(paper-icon-button[icon=menu]) {
-        margin-right: 24px;
-      }
-
-      .toolbar-tools > ::slotted(.fit) {
-        position: absolute;
-        top: auto;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        width: auto;
-        margin: 0;
-      }
-
-      /* TODO(noms): Until we have a better solution for classes that don't use
-       * /deep/ create our own.
-       */
-      .start-justified {
-        @apply --layout-start-justified;
-      }
-
-      .center-justified {
-        @apply --layout-center-justified;
-      }
-
-      .end-justified {
-        @apply --layout-end-justified;
-      }
-
-      .around-justified {
-        @apply --layout-around-justified;
-      }
-
-      .justified {
-        @apply --layout-justified;
-      }
-    </style>
-
-    <div id="topBar" class$="toolbar-tools [[_computeBarExtraClasses(justify)]]">
-      <slot name="top"></slot>
-    </div>
-
-    <div id="middleBar" class$="toolbar-tools [[_computeBarExtraClasses(middleJustify)]]">
-      <slot name="middle"></slot>
-    </div>
-
-    <div id="bottomBar" class$="toolbar-tools [[_computeBarExtraClasses(bottomJustify)]]">
-      <slot name="bottom"></slot>
-    </div>
-`,
-
-  is: 'tp-sega-md-top-app-bar',
-  hostAttributes: {'role': 'toolbar'},
-
-  properties: {
-    /**
-     * Controls how the items are aligned horizontally when they are placed
-     * at the bottom.
-     * Options are `start`, `center`, `end`, `justified` and `around`.
-     */
-    bottomJustify: {type: String, value: ''},
-
-    /**
-     * Controls how the items are aligned horizontally.
-     * Options are `start`, `center`, `end`, `justified` and `around`.
-     */
-    justify: {type: String, value: ''},
-
-    /**
-     * Controls how the items are aligned horizontally when they are placed
-     * in the middle.
-     * Options are `start`, `center`, `end`, `justified` and `around`.
-     */
-    middleJustify: {type: String, value: ''}
-
-  },
-
-  /** @override */
-  ready: function() {
-    console.warn(this.is, 'is deprecated. Please use app-layout instead!');
-  },
-
-  /** @override */
-  attached: function() {
-    this._observer = this._observe(this);
-    this._updateAriaLabelledBy();
-  },
-
-  /** @override */
-  detached: function() {
-    if (this._observer) {
-      this._observer.disconnect();
-    }
-  },
-
-  _observe: function(node) {
-    var observer = new MutationObserver(function() {
-      this._updateAriaLabelledBy();
-    }.bind(this));
-    observer.observe(node, {childList: true, subtree: true});
-    return observer;
-  },
-
-  _updateAriaLabelledBy: function() {
-    flush();
-    var labelledBy = [];
-    var contents =
-        Array.prototype.slice.call(dom(this.root).querySelectorAll('slot'))
-            .concat(Array.prototype.slice.call(
-                dom(this.root).querySelectorAll('content')));
-
-    for (var content, index = 0; content = contents[index]; index++) {
-      var nodes = dom(content).getDistributedNodes();
-      for (var node, jndex = 0; node = nodes[jndex]; jndex++) {
-        if (node.classList && node.classList.contains('title')) {
-          if (node.id) {
-            labelledBy.push(node.id);
-          } else {
-            var id = 'paper-toolbar-label-' + Math.floor(Math.random() * 10000);
-            node.id = id;
-            labelledBy.push(id);
-          }
-        }
-      }
-    }
-    if (labelledBy.length > 0) {
-      this.setAttribute('aria-labelledby', labelledBy.join(' '));
-    }
-  },
-
-  _computeBarExtraClasses: function(barJustify) {
-    if (!barJustify)
-      return '';
-    return barJustify + (barJustify === 'justified' ? '' : '-justified');
-  }
-});
-
-class SegaApp extends HTMLElement {
-  static sheet = (() => {
-    const s = new CSSStyleSheet();
-    s.replaceSync(`
-      :host { display: block; width:100%; height: 100vh; }
-    `);
-    return s;
-  })();
-
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-  }
-
-  connectedCallback() {
-    this.shadowRoot.adoptedStyleSheets = [SegaApp.sheet];
-    this.shadowRoot.innerHTML = `
-      <tp-sega-md-nav-drawer-panel>
-        <tp-sega-md-header-panel slot="main">
-          <tp-sega-md-top-app-bar slot="header">
-            <div slot="top">
-              <svg id="レイヤー_1" data-name="レイヤー 1" viewBox="0 0 120 40.02" width="105" height="32"><defs></defs><title>logo-sega</title><path fill="#fff" d="M346.27,408.5a10.35,10.35,0,0,0-19.71,0l-3.43,10.28V401.87H304.86a12.15,12.15,0,0,0-8.47,3.43v-3.43H277.57a12.17,12.17,0,0,0-8.86,3.82v-3.82H251a13.83,13.83,0,0,0-10.12,23.25h-3.72v16.05h17.72a13.81,13.81,0,0,0,11.82-6.68,12.17,12.17,0,0,0,10.87,6.68h18.82v-3.42a12.14,12.14,0,0,0,8.47,3.42h52.3Z" transform="translate(-237.16 -401.16)"/><path fill="#117bbd" d="M254.88,427.89H239.93v4.7h14.95a5.26,5.26,0,1,0,0-10.51H251a6.37,6.37,0,0,1,0-12.74H266v-4.7H251a11.07,11.07,0,0,0,0,22.14h3.88a.56.56,0,0,1,0,1.11Z" transform="translate(-237.16 -401.16)"/><path fill="#117bbd" d="M251,415.16H266v-4.71H251A5.26,5.26,0,1,0,251,421h3.88a6.37,6.37,0,0,1,0,12.73H239.93v4.71h14.95a11.08,11.08,0,0,0,0-22.15H251a.55.55,0,1,1,0-1.1Z" transform="translate(-237.16 -401.16)"/><path fill="#117bbd" d="M304.86,410.45a3.61,3.61,0,0,0-3.6,3.59v15a3.6,3.6,0,0,0,3.6,3.59h9.69V422.08h-7.48v4.7h2.77v1.11h-2.77a1.11,1.11,0,0,1-1.1-1.11V416.26a1.1,1.1,0,0,1,1.1-1.1h13.29v-4.71Z" transform="translate(-237.16 -401.16)"/><path fill="#117bbd" d="M334.31,432.59h10.93l-7.41-22.08a1.48,1.48,0,0,0-1.42-1,1.5,1.5,0,0,0-1.41,1l-9.62,27.93h5.55l3.38-9.92Zm2-10,1.6,4.76h-3.22Z" transform="translate(-237.16 -401.16)"/><path fill="#117bbd" d="M343.65,409.57a7.59,7.59,0,0,0-14.55-.1l-8.74,25.63V416.26H307.07V421h8.59V433.7h-10.8a4.7,4.7,0,0,1-4.7-4.7V414a4.71,4.71,0,0,1,4.7-4.7h15.5v-4.7h-15.5a9.41,9.41,0,0,0-9.41,9.41V429a9.41,9.41,0,0,0,9.41,9.41h19.35l9.73-28.26a2.6,2.6,0,0,1,4.95,0l7.89,23.52H334.31v4.71h19Z" transform="translate(-237.16 -401.16)"/><path fill="#117bbd" d="M277.57,433.7a4.7,4.7,0,0,1-4.7-4.7V414a4.71,4.71,0,0,1,4.7-4.7h16.05v-4.7H277.57a9.41,9.41,0,0,0-9.41,9.41V429a9.41,9.41,0,0,0,9.41,9.41h16.05V433.7Z" transform="translate(-237.16 -401.16)"/><path fill="#117bbd" d="M278.68,426.78H290.3v-4.7H274V429a3.6,3.6,0,0,0,3.6,3.59h16.05v-4.7H279.78A1.11,1.11,0,0,1,278.68,426.78Z" transform="translate(-237.16 -401.16)"/><path fill="#117bbd" d="M290.3,416.26H278.68a1.1,1.1,0,0,1,1.11-1.1h13.83v-4.71H277.57A3.61,3.61,0,0,0,274,414V421H290.3Z" transform="translate(-237.16 -401.16)"/><path fill="currentColor" d="M350.55,408.53a3.69,3.69,0,1,0,0-7.37,3.69,3.69,0,1,0,0,7.37Zm-3.17-3.69a3.17,3.17,0,0,1,5.42-2.24,3.17,3.17,0,0,1-2.25,5.42,3.18,3.18,0,0,1-3.17-3.18Z" transform="translate(-237.16 -401.16)"/><path fill="currentColor" d="M349.6,405.15v1.74h-.53V402.8h1.52a1.9,1.9,0,0,1,1.22.25,1.14,1.14,0,0,1,.43.95,1.06,1.06,0,0,1-1,1.12l1.15,1.77h-.65l-1.11-1.74Zm0-.45h1.09a2.11,2.11,0,0,0,.5,0,.63.63,0,0,0,.51-.66.74.74,0,0,0-.25-.57,1.14,1.14,0,0,0-.79-.18H349.6Z" transform="translate(-237.16 -401.16)"/></svg>
-            </div>
-            <span class="title" slot="top"></span>
-          </tp-sega-md-top-app-bar>
-          <sega-button>SEGA</sega-button>
-        </tp-sega-md-header-panel>
-      </tp-sega-md-nav-drawer-panel>
+}
+
+.mobile-navigation-wrapper[data-theme=sega] {
+    background-color: var(--color-sega-primary-800,#002366);
+    width: 85%;
+    right: 0
+}
+
+.mobile-navigation-wrapper[data-theme=sega] .mobile-navigation-content {
+    height: 100%;
+    color: var(--color-sega-light-0,#fff)
+}
+
+.mobile-navigation-wrapper[data-theme=sega] .mobile-navigation-content:before {
+    content: "";
+    background-image: linear-gradient(#00000080 0%,#0000 100%);
+    width: 100%;
+    height: .25rem;
+    transition: all .25s ease-in-out;
+    position: absolute;
+    top: 0;
+    left: 0
+}
+
+.mobile-navigation-wrapper[data-theme=sega] .mobile-navigation-content section {
+    height: 100%
+}
+
+.mobile-navigation-wrapper[data-theme=sega] .mobile-navigation-content section .section-content .column-wrapper.header--signup-link {
+    margin-inline:var(--spacing-24,1.5rem);width: 100%;
+    margin-top: auto;
+    margin-bottom: 2rem
+}
+
+.mobile-navigation-wrapper[data-theme=sega] .mobile-navigation-content section .section-content .column-wrapper.header--signup-link .component.component--cta,.mobile-navigation-wrapper[data-theme=sega] .mobile-navigation-content section .section-content .column-wrapper.header--signup-link .component.component--cta .content-wrapper a.cta-theme--default {
+    width: 100%
+}
+
+.mobile-navigation-wrapper[data-theme=sega] .mobile-navigation-content section .section-content .column-wrapper .column-content {
+    gap: var(--spacing-16,1rem);
+    flex-direction: column;
+    display: flex
+}
+
+.mobile-navigation-wrapper[data-theme=sega] .mobile-navigation-content section .section-content .column-wrapper .column-content .component.component--menu_main {
+    margin-right: auto
+}
+
+.mobile-navigation-wrapper[data-theme=sega] .mobile-navigation-content section .section-content .column-wrapper .column-content .component.component--menu_main nav.navigation .menu.menu--depth--0 {
+    padding-block:var(--spacing-24,1.5rem)}
+
+.mobile-navigation-wrapper[data-theme=sega] .mobile-navigation-content section .section-content .column-wrapper .column-content .component.component--menu_main nav.navigation .menu: not(.menu--depth--0) {
+    background-color:var(--color-sega-tertiary-900,#0d1126);
+    font-size: var(--text-14,.875rem);
+    line-height: var(--tw-leading,var(--text-14--line-height,1.5))
+}
+
+.mobile-navigation-wrapper[data-theme=sega] .mobile-navigation-content section .section-content .column-wrapper .column-content .component.component--menu_main nav.navigation .menu .menu-item .menu-link-wrapper,.mobile-navigation-wrapper[data-theme=sega] .mobile-navigation-content section .section-content .column-wrapper .column-content .component.component--social {
+    margin-inline:var(--spacing-24,1.5rem);padding-block: var(--spacing-16,1rem)
+}
+
+.mobile-navigation-wrapper[data-theme=sega] .mobile-navigation-content section .section-content .column-wrapper .column-content .component.component--social .content-wrapper .social-link-list {
+    justify-content: flex-start;
+    gap: 1rem
+}
+
+.mobile-navigation-wrapper[data-theme=sega] .mobile-navigation-content section .section-content .column-wrapper .column-content .component.component--social .content-wrapper .social-link-list .social-link {
+    height: 1.5rem
+}
+
+.mobile-navigation-wrapper[data-theme=sega] .mobile-navigation-content section .section-content .column-wrapper .column-content .component.component--social .content-wrapper .social-link-list .social-link a {
+    color: var(--color-sega-dark-0,#000)
+}
+
+.mobile-navigation-wrapper[data-theme=sega] .mobile-navigation-content section .section-content .column-wrapper .column-content .component.component--social .content-wrapper .social-link-list .social-link a:hover {
+    color: var(--color-sega-secondary-0,#e1eaff)
+}
+
+header .features-wrapper .menu--user .menu--user--content .button-register--wrapper {
+    z-index: 0;
+    height: 100%
+}
+
+header .features-wrapper .menu--user .menu--user--content .button-register--wrapper .button-register {
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    display: flex
+}
+
+header .features-wrapper .menu--user .user-menu {
+    right: var(--spacing-0,0);
+    z-index: 20;
+    white-space: nowrap;
+    position: absolute
+}
+
+header .features-wrapper .menu--user .user-menu.options-multiple {
+    flex-direction: column;
+    display: flex
+}
+
+header .features-wrapper .menu--user .user-menu.options-multiple .login-providers .login-provider {
+    display: flex;
+    position: relative
+}
+
+header .features-wrapper .menu--user .user-menu.logged-in {
+    flex-direction: column;
+    display: flex
+}
+
+header .features-wrapper .menu--user .user-menu.logged-in .user-name {
+    display: flex
+}
+
+header .features-wrapper .menu--user .user-menu.logged-in .user-menu--links .user-menu--link {
+    position: relative
+}
+
+header .features-wrapper .basket-icon {
+    min-height: 100%;
+    padding: var(--spacing-16,1rem);
+    cursor: pointer;
+    flex-direction: row;
+    align-items: center;
+    display: flex
+}
+
+header .features-wrapper .basket-icon>svg {
+    height: var(--spacing-18,1.125rem);
+    width: var(--spacing-18,1.125rem)
+}
+
+header .section--section_header .section-content .column-wrapper .column-content .component.component--menu_main nav.navigation .menu.expand-right .menu-item.menu-item--expandable.menu-item--collapsed>.menu-link-wrapper>.menu-link-toggle {
+    transition: transform .25s ease-in-out;
+    transform: rotate(0)
+}
+
+header .section--section_header .section-content .column-wrapper .column-content .component.component--menu_main nav.navigation .menu.expand-right .menu-item.menu-item--expandable.menu-item--expanded>.menu-link-wrapper>.menu-link-toggle {
+    transform: rotate(-90deg)
+}
+
+header button.mobile-nav-toggle {
+    width: 1.5rem;
+    min-width: 1.5rem;
+    height: 1.5rem
+}
+
+header button.mobile-nav-toggle:after {
+    content: "";
+    background-color: #000;
+    width: 100%;
+    height: 2px;
+    transition: all .25s ease-in-out;
+    position: absolute;
+    top: 33.3%;
+    left: 0
+}
+
+header button.mobile-nav-toggle.is-open:after {
+    width: 0
+}
+
+header button.mobile-nav-toggle.is-open .mobile-nav-toggle-content:before {
+    top: 16.65%;
+    transform: rotate(45deg)
+}
+
+header button.mobile-nav-toggle.is-open .mobile-nav-toggle-content:after {
+    width: 100%;
+    top: calc(83.31% + 1px);
+    left: 0;
+    transform: rotate(-45deg)
+}
+
+header button.mobile-nav-toggle .mobile-nav-toggle-content:before,header button.mobile-nav-toggle .mobile-nav-toggle-content:after {
+    content: "";
+    transform-origin: 0;
+    background-color: #000;
+    height: 2px;
+    transition: all .25s ease-in-out;
+    position: absolute
+}
+
+header button.mobile-nav-toggle .mobile-nav-toggle-content:before {
+    width: 100%;
+    top: 0;
+    left: 0
+}
+
+header button.mobile-nav-toggle .mobile-nav-toggle-content:after {
+    width: 50%;
+    top: 66.6%;
+    left: 50%
+}
+
+.component.component--menu_main nav.navigation .menu .menu-item.menu-item--expandable.menu-item--collapsed>.menu-link-wrapper>.menu-link-toggle {
+    transition: transform .25s ease-in-out;
+    transform: rotate(0)
+}
+
+.component.component--menu_main nav.navigation .menu .menu-item.menu-item--expandable.menu-item--expanded>.menu-link-wrapper>.menu-link-toggle {
+    transition: transform .25s ease-in-out;
+    transform: rotate(-180deg)
+}
+
+.component.component--menu_main nav.navigation .menu .menu-item.menu-item--expandable>.menu-link {
+    justify-content: space-between;
+    display: flex
+}
+
+.component.component--menu_main nav.navigation .menu .menu-item .menu-link.menu-link--active-trail {
+    font-weight: 700
+}
+
+.mobile-navigation-wrapper {
+    z-index: 21
+}
+
+.mobile-navigation-wrapper .component.component--menu_main {
+    width: 100%
+}
+
+.mobile-navigation-wrapper .component.component--menu_main nav.navigation .menu .menu-item.menu-item--expandable.expanded-on-mobile>.menu-link:after {
+    content: none
+}
+    `;
+  render() {
+    return html`
+      <header data-theme="sega"><div><svg id="レイヤー_1" data-name="レイヤー 1" viewBox="0 0 120 40.02" width="105" height="32"><defs></defs><title>logo-sega</title><path fill="#fff" d="M346.27,408.5a10.35,10.35,0,0,0-19.71,0l-3.43,10.28V401.87H304.86a12.15,12.15,0,0,0-8.47,3.43v-3.43H277.57a12.17,12.17,0,0,0-8.86,3.82v-3.82H251a13.83,13.83,0,0,0-10.12,23.25h-3.72v16.05h17.72a13.81,13.81,0,0,0,11.82-6.68,12.17,12.17,0,0,0,10.87,6.68h18.82v-3.42a12.14,12.14,0,0,0,8.47,3.42h52.3Z" transform="translate(-237.16 -401.16)"/><path fill="#117bbd" d="M254.88,427.89H239.93v4.7h14.95a5.26,5.26,0,1,0,0-10.51H251a6.37,6.37,0,0,1,0-12.74H266v-4.7H251a11.07,11.07,0,0,0,0,22.14h3.88a.56.56,0,0,1,0,1.11Z" transform="translate(-237.16 -401.16)"/><path fill="#117bbd" d="M251,415.16H266v-4.71H251A5.26,5.26,0,1,0,251,421h3.88a6.37,6.37,0,0,1,0,12.73H239.93v4.71h14.95a11.08,11.08,0,0,0,0-22.15H251a.55.55,0,1,1,0-1.1Z" transform="translate(-237.16 -401.16)"/><path fill="#117bbd" d="M304.86,410.45a3.61,3.61,0,0,0-3.6,3.59v15a3.6,3.6,0,0,0,3.6,3.59h9.69V422.08h-7.48v4.7h2.77v1.11h-2.77a1.11,1.11,0,0,1-1.1-1.11V416.26a1.1,1.1,0,0,1,1.1-1.1h13.29v-4.71Z" transform="translate(-237.16 -401.16)"/><path fill="#117bbd" d="M334.31,432.59h10.93l-7.41-22.08a1.48,1.48,0,0,0-1.42-1,1.5,1.5,0,0,0-1.41,1l-9.62,27.93h5.55l3.38-9.92Zm2-10,1.6,4.76h-3.22Z" transform="translate(-237.16 -401.16)"/><path fill="#117bbd" d="M343.65,409.57a7.59,7.59,0,0,0-14.55-.1l-8.74,25.63V416.26H307.07V421h8.59V433.7h-10.8a4.7,4.7,0,0,1-4.7-4.7V414a4.71,4.71,0,0,1,4.7-4.7h15.5v-4.7h-15.5a9.41,9.41,0,0,0-9.41,9.41V429a9.41,9.41,0,0,0,9.41,9.41h19.35l9.73-28.26a2.6,2.6,0,0,1,4.95,0l7.89,23.52H334.31v4.71h19Z" transform="translate(-237.16 -401.16)"/><path fill="#117bbd" d="M277.57,433.7a4.7,4.7,0,0,1-4.7-4.7V414a4.71,4.71,0,0,1,4.7-4.7h16.05v-4.7H277.57a9.41,9.41,0,0,0-9.41,9.41V429a9.41,9.41,0,0,0,9.41,9.41h16.05V433.7Z" transform="translate(-237.16 -401.16)"/><path fill="#117bbd" d="M278.68,426.78H290.3v-4.7H274V429a3.6,3.6,0,0,0,3.6,3.59h16.05v-4.7H279.78A1.11,1.11,0,0,1,278.68,426.78Z" transform="translate(-237.16 -401.16)"/><path fill="#117bbd" d="M290.3,416.26H278.68a1.1,1.1,0,0,1,1.11-1.1h13.83v-4.71H277.57A3.61,3.61,0,0,0,274,414V421H290.3Z" transform="translate(-237.16 -401.16)"/><path fill="currentColor" d="M350.55,408.53a3.69,3.69,0,1,0,0-7.37,3.69,3.69,0,1,0,0,7.37Zm-3.17-3.69a3.17,3.17,0,0,1,5.42-2.24,3.17,3.17,0,0,1-2.25,5.42,3.18,3.18,0,0,1-3.17-3.18Z" transform="translate(-237.16 -401.16)"/><path fill="currentColor" d="M349.6,405.15v1.74h-.53V402.8h1.52a1.9,1.9,0,0,1,1.22.25,1.14,1.14,0,0,1,.43.95,1.06,1.06,0,0,1-1,1.12l1.15,1.77h-.65l-1.11-1.74Zm0-.45h1.09a2.11,2.11,0,0,0,.5,0,.63.63,0,0,0,.51-.66.74.74,0,0,0-.25-.57,1.14,1.14,0,0,0-.79-.18H349.6Z" transform="translate(-237.16 -401.16)"/></svg></div></header>
     `;
   }
 }
-
-if (!customElements.get('sega-app')) {
-  customElements.define('sega-app', SegaApp);
+customElements.define('sega-app-bar', SegaAppBar);
+class SegaApp extends LitElement {
+    static styles = css`
+      :host { display: block; font-family: var(--font-sega-default); width:100%; height: 100vh; }
+    `;
+  render() {
+    return html`
+      <sega-app-bar></sega-app-bar>
+      <sega-article></sega-article>
+      <sega-footer></sega-footer>
+    `;
+  }
 }
+customElements.define('sega-app', SegaApp);
