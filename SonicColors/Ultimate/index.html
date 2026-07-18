@@ -2556,8 +2556,9 @@ window.CustomElements.addModule(function(scope) {
   </div>
   <template is="dom-bind">
 
+    <iron-ajax url="top.json" auto="" last-response="{{top}}"></iron-ajax>
     <iron-ajax url="index.json" auto="" last-response="{{articles}}"></iron-ajax>
-    <scu-official-app articles="[[articles]]">
+    <scu-official-app top="[[top]]" articles="[[articles]]">
       <footer slot="footer">
         <div class="contentWrap is-footer">
 					<div class="contentBox is-footer">
